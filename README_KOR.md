@@ -22,8 +22,8 @@ Amazon EC2를 사용하면 인스턴스를 여러 위치에 배치할 수 있다
 
 AWS 지역 이름은 항상 AWS Management Console의 오른쪽 상단 모서리의 탐색 바에 나열된다.
 
-* AWS 지역 이름을 기록해 두십시오. 예를들어 이 실습의 경우 **US West (Oregon)** 지역을 선택하십시오.
-* 아래 표를 사용하여 지역 코드를 확인하십시오. 이 실습에 대해 **us-west-2** 를 선택하십시오.
+- AWS 지역 이름을 기록해 두십시오. 예를들어 이 실습의 경우 **US West (Oregon)** 지역을 선택하십시오.
+- 아래 표를 사용하여 지역 코드를 확인하십시오. 이 실습에 대해 **us-west-2** 를 선택하십시오.
 
 | Region Name                        | Region Code    |
 | ---------------------------------- | -------------- |
@@ -36,7 +36,7 @@ AWS 지역 이름은 항상 AWS Management Console의 오른쪽 상단 모서리
 | EU (Ireland) Region                | eu-west-1      |
 | EU (Frankfurt) Region              | eu-central-1   |
 
----
+------
 
 ## Labs
 
