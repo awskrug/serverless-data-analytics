@@ -107,8 +107,18 @@ Redshift Spectrum은 필요할 경우 수천 개의 인스턴스로 확장되므
 
 ### Can Redshift Spectrum replace Amazon EMR?
 
+아니다. Redshift Spectrum은 Amazon Redshift 및 S3의 데이터에 대한 쿼리를 실행하는 데 적합하지만 실제로 Amazon EMR과 같은 처리 프레임 워크에서 일반적으로 요청하는 사용 사례 유형에는 적합하지 않다. Amazon EMR은 단순히 SQL 쿼리를 실행하는 것을 훨씬 능가한다. Amazon EMR은 사용자 정의가 가능한 클러스터에서 Spark, Hadoop 및 Presto와 같이 널리 사용되는 대형 데이터 처리 프레임 워크의 최신 버전을 사용하여 대용량 데이터 세트를 처리하고 분석 할 수있는 관리 서비스이다. Amazon EMR을 사용하면 기계 학습, 그래프 분석, 데이터 변환, 스트리밍 데이터 및 코드 작성이 가능한 거의 모든 애플리케이션과 같은 다양한 스케일 아웃 데이터 처리 작업을 실행할 수 있다. 또한 Redshift Spectrum을 EMR과 함께 사용할 수도 있다. Amazon Redshift Spectrum은 Amazon EMR과 같은 방식으로 테이블 정의를 저장한다. 따라서 이미 EMR을 사용하여 대규모 데이터 저장소를 처리하고 있다면 Redshift Spectrum을 사용하여 Amazon EMR 작업을 방해하지 않고도 데이터를 동시에 쿼리할 수 있다.
+
+쿼리서비스, 데이터 웨어하우스, 복잡한 데이터 처리 프레임워크는 모두 각 자의 역할이 있으며, 서로 다른 용도로 사용된다. 단지 작업에 있어서 적합한 도구를 선택하기만 하면 된다. 
+
 ### When should I use Amazon Athena vs. Redshift Spectrum?
 
+Amazon Athena는 모든 직원에게 Amazon S3의 데이터에 대한 임의 (ad-hoc) 쿼리를 실행할 수있는 가장 간단한 방법이다. Athena는 서버가 없으므로 설정 또는 관리 할 인프라가 없으므로 데이터를 즉시 분석 할 수 있습니다.
+
+자주 접근하는 데이터를 일관성 있고 구조화 된 형식으로 저장해야하는 경우 Amazon Redshift와 같은 데이터웨어 하우스를 사용해야한다. 이를 통해 구조화되고 자주 접근되는 데이터를 Amazon Redshift에 저장하고 Redshift Spectrum을 사용하여 Amazon Redshift 쿼리를 Amazon S3 데이터 lake의 전체 데이터 범위로 확장 할 수 있다. 이렇게하면 원하는 형식으로 원하는 위치에 자유롭게 데이터를 저장할 수 있으며 필요할 때 처리 할 수 있다.
+
 ### Can I use Redshift Spectrum to query data that I process using Amazon EMR?
+
+네, Redshift Spectrum은 Amazon EMR이 데이터 및 테이블 정의를 찾는 데 사용하는 것과 동일한 Apache Hive Metastore를 지원할 수 있다. Amazon EMR을 사용하고 있고 이미 Hive Metastore를 사용하고 있다면 Amazon Redshift 클러스터를 구성하여 사용하면된다. 그런 다음 Amazon EMR 작업과 함께 즉시 해당 데이터 쿼리를 시작할 수 있다. 
 
 자세한 내용은 [Amazon Athena FAQ](https://aws.amazon.com/athena/faqs/) 를 참조하십시오.
