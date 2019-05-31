@@ -2,7 +2,7 @@
 
 * [Amazon Athena 데이터 베이스 및 테이블 생성](#creating-amazon-athena-database-and-table)
     * [Athena 데이터 베이스 생성하기](#데이터-베이스-생성하기)
-    * [Athena 테이블 생성](#테이블-)  
+    * [Athena 테이블 생성](#테이블-생성하기)  
 * [Querying data from Amazon S3 using Amazon Athena](#querying-data-from-amazon-s3-using-amazon-athena)
 * [Querying partitioned data using Amazon Athena](#querying-partitioned-data-using-amazon-athena)
     * [Create Athena Table with Partitions](#create-a-table-with-partitions)
