@@ -3,12 +3,12 @@
 * [Amazon Athena 데이터 베이스 및 테이블 생성](#creating-amazon-athena-database-and-table)
     * [Athena 데이터 베이스 생성하기](#데이터-베이스-생성하기)
     * [Athena 테이블 생성](#테이블-생성하기)  
-* [Querying data from Amazon S3 using Amazon Athena](#querying-data-from-amazon-s3-using-amazon-athena)
+* [Athena를 사용해서 S3에서 데이터 Querying하기](#Athena를-사용해서-S3에서-데이터-Querying하기)
 * [Querying partitioned data using Amazon Athena](#querying-partitioned-data-using-amazon-athena)
     * [Create Athena Table with Partitions](#create-a-table-with-partitions)
     * [Adding partition metadata to Amazon Athena](#adding-partition-metadata-to-amazon-athena)
     * [Querying partitioned data set](#querying-partitioned-data-set)
-* [Creating Views with Amazon Athena](#creating-views-with-amazon-athena)
+* [Amazon  Athena로 View 생성하기](#Amazon-Athena로-View-생성하기)
 * [CTAS Query with Amazon Athena](#ctas-query-with-amazon-athena)
     * [Create an Amazon S3 Bucket](#create-an-amazon-s3-bucket)
     * [Repartitioning the dataset using CTAS Query](#repartitioning-the-dataset-using-ctas-query)
@@ -80,39 +80,38 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 ````
 
 >**Note:** 
->-	If you use CREATE TABLE without the EXTERNAL keyword, you will get an error as only tables with the EXTERNAL keyword can be created in Amazon Athena. We recommend that you always use the EXTERNAL keyword. When you drop a table, only the table metadata is removed and the data remains in Amazon S3.
->-	You can also query data in regions other than the region where you are running Amazon Athena. Standard inter-region data transfer rates for Amazon S3 apply in addition to standard Amazon Athena charges. 
->-	Ensure the table you just created appears on the Catalog dashboard for the selected database.
+>-	Amazon Athena에서 EXTERNAL 키워드가 있는 테이블만 만들수 있기 때문에 EXTERNAL 키워드 없이 CREATE TABLE을 사용하면 오류가 발생합니다. 항상 EXTERNAL 키워드를 사용하는 것이 좋습니다. 테이블을 drop 하면 테이블 메타데이터만 제거되고 데이터는 Amazon S3에 남아있습니다.
+>-	또한 Amazon Athena를 실행하는 지역 이외의 지역에서 데이터를 query할 수 도 있습니다. Amazon S3 표준 지역간 데이터 전송 속도는 표준 Athena 요금과 함께 적용됩니다.
+>-	선택한 데이터베이스에 대한 카탈로그 대시보드에 방금 생성한 테이블이 나타나는지 확인하십시오.
 
 ![athenatablecreatequery-yellowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenatablecreatequery-yellowtaxi.png)
 
-## Querying data from Amazon S3 using Amazon Athena
+## Athena를 사용해서 S3에서 데이터 Querying하기
 
-Now that you have created the table, you can run queries on the data set and see the results in AWS Management Console for Amazon Athena.
+이제 생성된 테이블이 있습니다. 데이터 세트에서 query를 실행할 수 있고 그 결과를 AWS Management Console for Athena 에서 볼 수 있습니다.
 
-1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query**.
+1. **New Query** 를 선택하고 다음 문장을 query 창에 복사한 다음 **Run Query** 를 선택하십시오.
 
 ````sql
     SELECT * FROM TaxiDataYellow limit 10
 ````
 
-Results for the above query look like the following:
+위의 query에 대한 결과는 다음과 같습니다 :
 ![athenaselectquery-yellowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenaselectquery-yellowtaxi.png)
 
-2.	Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides for yellow cabs. 
+2.	**New Query** 를 선택하고 다음 문장을 query 창에 복사한 다음 **Run Query**를 선택하여 노란 택시를 위한 total  number of taxi  rides를 가져오십시오.
 
 ````sql
     SELECT COUNT(1) as TotalCount FROM TaxiDataYellow
 ````
-Results for the above query look like the following:
+위의 query에 대한 결과는 다음과 같습니다 :
 ![athenacountquery-yelllowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacountquery-yelllowtaxi.png)
 
 >**Note:** 
-The current data format is CSV and this query is scanning **~207GB** of data and takes **~20.06** seconds to execute the query.
+현재 데이터 형식은 CSV 이며 이 query는 **~207GB**의 데이터를 스캔하고 있으며 query를 실행하는데 최대  **20.06**초가 소요됩니다.
 
-3. Make a note of query execution time for later comparison while querying the data set in Apache Parquet format. 
-
-4. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to query for the number of rides per vendor, along with the average fair amount for yellow taxi rides
+3. Apache Paraquet 형식으로 데이터 세트를 querying 하는 동안 나중 비교를 위해 query 실행 시간을 기록하십시오.
+4. **New Query**를 선택하고 다음 문장을 query 창에 복사한 다음 **Run Query**를 선택하여 노란 택시 승차권의 평균 요금과 함께 회사 당  승차 수를 query 하십시오.
 
 ````sql
     SELECT 
@@ -126,7 +125,7 @@ The current data format is CSV and this query is scanning **~207GB** of data and
     WHERE total_amount > 0
     GROUP BY (1)
 ````
-Results for the above query look like the following:
+위의 query에 대한 결과는 다음과 같습니다 :
 ![athenacasequery-yelllowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacasequery-yelllowtaxi.png)
 
 ## Querying partitioned data using Amazon Athena
@@ -275,15 +274,13 @@ Results for the above query look like the following:
 ![athenapercentilequery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenapercentilequery-nytaxi.png)
 
 
-## Creating Views with Amazon Athena
+## Amazon  Athena로 View 생성하기
 
-A view in Amazon Athena is a logical, not a physical table. The query that defines a view runs each time the view is referenced in a query. You can create a view from a SELECT query and then reference this view in future queries. For more information, see [CREATE VIEW](https://docs.aws.amazon.com/athena/latest/ug/create-view.html).
+Amazon Athena의 view는 물리적 테이블이 아닌 논리적인 테이블 입니다.  view를 정의하는 query는 view가 참조될 때 마다 실행됩니다. SELCET query 에서 view를 생성한 다음 이후 query에서 이 view를 참조하십시오. 자세한 내용은 [CREATE VIEW](https://docs.aws.amazon.com/athena/latest/ug/create-view.html)를 참조하십시오.
 
-1. Ensure that current AWS region is **US West (Oregon)** region
-
-2. Ensure **mydatabase** is selected from the DATABASE list.
-
-3. Choose **New Query**, copy the following statement anywhere into the query pane, and then choose **Run Query**.
+1. 현재 AWS 지역이 **US West (Oregon)** 지역인지 확인하십시오.
+2. 데이터베이스 목록에서 **mydatabase**가 선택되었는지 확인하십시오.
+3. **New Query**를 선택하고 다음 문장을 query 창에 복사한 다음 **Run Query**를 선택하십시오.
 
 ```sql
 CREATE VIEW nytaxiridesmonthly AS
@@ -298,15 +295,15 @@ where total_amount > 0
 group by vendorid, year, month
 ```
 
-You will see a new view called **nytaxiridesmonthly** created under **Views** under **Database** section in the left.
+왼쪽은 **Database** 섹션에 있는 **Views**에서 **nytaxiridesmonthly** 라는 view가 생성된 것을 볼 수 있습니다.
 
-4. Choose **New Query**, copy the following statement anywhere into the query pane, and then choose **Run Query**.
+4. **New Query**를 선택하고 다음 문장을 query 창에 복사한 다음 **Run Query**를 선택하십시오.
 
 ```sql
 SELECT * FROM nytaxiridesmonthly WHERE vendorid = '1'
 ```
 
-Some of the view specific commands to try out are [SHOW COLUMNS](https://docs.aws.amazon.com/athena/latest/ug/show-columns.html), [SHOW CREATE VIEW](https://docs.aws.amazon.com/athena/latest/ug/show-create-view.html), [DESCRIBE VIEW](https://docs.aws.amazon.com/athena/latest/ug/describe-view.html), and [DROP VIEW](https://docs.aws.amazon.com/athena/latest/ug/drop-view.html).
+시도할 view 명령어로는  [SHOW COLUMNS](https://docs.aws.amazon.com/athena/latest/ug/show-columns.html), [SHOW CREATE VIEW](https://docs.aws.amazon.com/athena/latest/ug/show-create-view.html), [DESCRIBE VIEW](https://docs.aws.amazon.com/athena/latest/ug/describe-view.html), 그리고 [DROP VIEW](https://docs.aws.amazon.com/athena/latest/ug/drop-view.html) 가 있습니다.
 
 ## CTAS Query with Amazon Athena
 
