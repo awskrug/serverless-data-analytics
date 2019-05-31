@@ -8,7 +8,7 @@
     * [Create Athena Table with Partitions](#create-a-table-with-partitions)
     * [Adding partition metadata to Amazon Athena](#adding-partition-metadata-to-amazon-athena)
     * [Querying partitioned data set](#querying-partitioned-data-set)
-* [Amazon  Athena로 View 생성하기](#Amazon-Athena로-View-생성하기)
+* [Amazon  Athena로 View 생성하기](#Amazon--Athena로-View-생성하기)
 * [CTAS Query with Amazon Athena](#ctas-query-with-amazon-athena)
     * [Create an Amazon S3 Bucket](#create-an-amazon-s3-bucket)
     * [Repartitioning the dataset using CTAS Query](#repartitioning-the-dataset-using-ctas-query)
