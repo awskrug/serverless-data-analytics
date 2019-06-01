@@ -86,7 +86,7 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 
 ![athenatablecreatequery-yellowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenatablecreatequery-yellowtaxi.png)
 
-## Athena를 사용해서 S3에서 데이터 Querying하기
+## Athena를 사용해서 S3에서 데이터 하기
 
 이제 생성된 테이블이 있습니다. 데이터 세트에서 query를 실행할 수 있고 그 결과를 AWS Management Console for Athena 에서 볼 수 있습니다.
 
