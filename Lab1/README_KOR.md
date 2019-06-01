@@ -4,10 +4,10 @@
     * [Athena 데이터 베이스 생성하기](#데이터-베이스-생성하기)
     * [Athena 테이블 생성](#테이블-생성하기)  
 * [Athena를 사용해서 S3에서 데이터 Querying하기](#Athena를-사용해서-S3에서-데이터-Querying하기)
-* [Querying partitioned data using Amazon Athena](#querying-partitioned-data-using-amazon-athena)
-    * [Create Athena Table with Partitions](#create-a-table-with-partitions)
-    * [Adding partition metadata to Amazon Athena](#adding-partition-metadata-to-amazon-athena)
-    * [Querying partitioned data set](#querying-partitioned-data-set)
+* [Amazon Athena를 사용하여 분한될 데이터 쿼리하기](#Amazon-Athena를-사용하여-분한될-데이터-쿼리하기)
+    * [파티션으로 테이블 만들기](#파티션으로-테이블-만들기)
+    * [Amazon athena에 파티션 메타 데이터 추가하기](#Amazon-athena에-파티션-메타-데이터-추가하기)
+    * [분할 된 데이터 집합 쿼리하기](#분할-된-데이터-집합-쿼리하기)
 * [Amazon  Athena로 View 생성하기](#Amazon--Athena로-View-생성하기)
 * [CTAS Query with Amazon Athena](#ctas-query-with-amazon-athena)
     * [Create an Amazon S3 Bucket](#create-an-amazon-s3-bucket)
@@ -86,7 +86,7 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 
 ![athenatablecreatequery-yellowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenatablecreatequery-yellowtaxi.png)
 
-## Athena를 사용해서 S3에서 데이터 하기
+## Athena를 사용해서 S3에서 데이터 Querying하기
 
 이제 생성된 테이블이 있습니다. 데이터 세트에서 query를 실행할 수 있고 그 결과를 AWS Management Console for Athena 에서 볼 수 있습니다.
 
