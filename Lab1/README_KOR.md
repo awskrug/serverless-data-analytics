@@ -128,17 +128,15 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 위의 query에 대한 결과는 다음과 같습니다 :
 ![athenacasequery-yelllowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacasequery-yelllowtaxi.png)
 
-## Querying partitioned data using Amazon Athena
+## Amazon Athena를 사용하여 분한될 데이터 쿼리하기
 
-By partitioning your data, you can restrict the amount of data scanned by each query, thus improving performance and reducing cost. Athena leverages Hive for [partitioning](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AlterPartition) data. You can partition your data by any key. A common practice is to partition the data based on time, often leading to a multi-level partitioning scheme. For example, a customer who has data coming in every hour might decide to partition by year, month, date, and hour. Another customer, who has data coming from many different sources but loaded one time per day, may partition by a data source identifier and date.
+데이터를 분할시킴으로써 각 쿼리가 스캔하는 데이터의 양을 제한할 수 있게 되고, 그것으로 인해 성능을 향상 시키고 비용을 절감 할 수 있습니다. Athena는 Hive를 활용하여 데이터를 [파티셔닝](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AlterPartition) 합니다. 임의의 키로 데이터를 분할 할 수 있습니다. 일반적으로 시간을 기준으로 데이터를 분할하여 여러 수준(multi-level)의 파티셔닝 스키마를 생성하는 경우가 많습니다. 예를 들면, 매시간마다 데이터가 들어오는 고객은 년, 월, 일 및 시간별로 파티션을 결정할 수 있습니다. 여러 다른 소스에서 데이터를 전송하지만 하루에 한번만 로드되는 다른 고객의 경우에어는 데이터 소스 식별자 및 날짜별로 분할 할 수 있습니다.
 
-### Create a Table with Partitions
+### 파티션으로 테이블 만들기
 
-1. Ensure that current AWS region is **US West (Oregon)** region
-
-2. Ensure **mydatabase** is selected from the DATABASE list and then choose **New Query**.
-
-3. In the query pane, copy the following statement to create a the NYTaxiRides table, and then choose **Run Query**:
+1. 현재 AWS지역이  **US West (Oregon)**  지역 인지 확인하십시오.
+2. 데이터베이스 목록에서 **mydatabase**가 선택 되었는지 확인후 **New Query**를 선택하십시오.
+3. 쿼리 창에서 다음 문장들을 복사하여 NYTaxiRides 테이블을 만든 다음 **Run Query**를 선택합니다.
 
 ````sql
   CREATE EXTERNAL TABLE NYTaxiRides (
@@ -157,77 +155,74 @@ By partitioning your data, you can restrict the amount of data scanned by each q
   LOCATION 's3://us-west-2.serverless-analytics/canonical/NY-Pub'
 ````
 
-4.Ensure the table you just created appears on the Catalog dashboard for the selected database.
+4. 방금 생성 한 테이블이 선택된 데이터베이스의 카탈로그 대시 보드에 표시되는지 확인합니다.
 
 ![athenatablecreatequery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenatablecreatequery-nytaxi.png)
 
->**Note:**
->	Running the following sample query on the NYTaxiRides table you just created will not return any result as no metadata about the partition is added to the Amazon Athena table catalog.  
+>**Note:** 방금 만든 NYTaxiRides 테이블에서 다음 샘플 쿼리를 실행해도 파티션에 대한 메타 데이터가 Amazon Athena 테이블 카탈로그에 추가되지 않으므로 결과를 반환하지 않습니다.
+>
 >```sql 
->   SELECT * FROM NYTaxiRides limit 10
+>SELECT * FROM NYTaxiRides limit 10
 >```
 
-### Adding partition metadata to Amazon Athena
+### Amazon athena에 파티션 메타 데이터 추가하기
 
-Now that you have created the table you need to add the partition metadata to the Amazon Athena Catalog.
+이제 파티션 메타 데이터를 Amazon Athena Catalog에 추가해야하는 테이블을 만들었습니다.
 
-1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
+1. **New Query** 를 선택하고 다음 문장을 쿼리 창에 복사 한 다음 **Run Query**를 선택 하여 파티션 메타 데이터를 추가합니다.
 
 ```sql
     MSCK REPAIR TABLE NYTaxiRides
 ```
-The returned result will contain information for the partitions that are added to NYTaxiRides for each taxi type (yellow, green, fhv) for every month for the year from 2009 to 2016
+반환 된 결과에는 2009년 부터 2016년 까지 매달 택시 type (노란색, 녹색, fhv) 별로 NYTaxiRides에 추가 된 파티션에 대한 정보가 포함됩니다.
 
->**Note:**
-> The MSCK REPAIR TABLE automatically adds partition data based on the New York taxi ride data to in the Amazon S3 bucket is because the data is already converted to Apache Parquet format partitioned by year, month and type, where type is the taxi type (yellow, green or fhv). If the data layout does not confirm with the requirements of MSCK REPAIR TABLE the alternate approach is to add each partition manually using ALTER TABLE ADD PARTITION. You can also automate adding partitions by using the JDBC driver.
+> **Note:** MSCK REPAIR TABLE은 뉴욕 택시 승차 데이터를 기반으로 한 데이터를 Amazon S3 버킷에 자동으로 추가하는 것은 데이터가 이미 년도, 월 및 type별로 분할된 Apache Parquet 형식으로 변환되었기 때문이며, 여기서 type은 택시의 type(노란색, 녹색, fhv) 입니다.  만일 데이터 레이아웃이 MSCK REPAIR TABLE의 요구 사항으로 확인되지 않다면 대체 방법은 ALTER TABLE ADD PARTITION 을 사용하여 각 파티션을 수동으로 추가하는 것입니다. JDBC 드라이버를 사용하여 파티션 추가를 자동화 할 수도 있습니다.
 
-### Querying partitioned data set
+### 분할 된 데이터 집합 쿼리하기
 
-Now that you have added the partition metadata to the Athena data catalog you can now run your query.
+Athena 데이터 카탈로그에 파티션 메타 데이터를 추가 했으므로 이제 쿼리를 실행할 수 있습니다.
 
-1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides
+1. **New Query** 를 선택 하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query** 를 선택하여 총 택시 수를 가져옵니다.
 
 ```sql
     SELECT count(1) as TotalCount from NYTaxiRides
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다.
 
 ![athenacountquery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacountquery-nytaxi.png)
 
->**Note:**
-> This query executes much faster because the data set is partitioned and it in optimal format - Apache Parquet (an open source columnar). Following is a comparison of the execution time and amount of data scanned between the data formats:
+> **Note:** 이 쿼리는 데이터 세트가 분할되어 있으며 Apache Parquet (오픈 소스 컬럼) 인 최적의 형식으로 훨씬 빠르게 실행됩니다. 다음은 실행 시간과 형식간에 스캔 된 데이터의 양을 비교 한 것입니다.
 >
->>**CSV Format:**
->>```sql
->>  SELECT count(*) as count FROM TaxiDataYellow 
->>```
->>Run time: **~20.06 seconds**, Data scanned: **~207.54GB**, Count: **1,310,911,060**
->>```sql
->>SELECT * FROM TaxiDataYellow limit 1000
->>```
->>Run time: **~3.13 seconds**, Data scanned: **~328.82MB**
->
->>**Parquet Format:**
->>```sql
->>SELECT count(*) as count FROM NYTaxiRides
->>```
->>Run time: **~5.76 seconds**, Data scanned: **0KB**, Count: **2,870,781,820**
->>```sql
->>SELECT * FROM NYTaxiRides limit 1000
->>```
->>Run time: **~1.13 seconds**, Data scanned: **5.2MB**
+> > **CSV 형식:**
+> >
+> > ```sql
+> > SELECT count(*) as count FROM TaxiDataYellow 
+> > ```
+> > 실행 시간: **~20.06 초**, 데이터 스캔: **~207,54GB**, 카운트: **1,310,911,060**
+> > ````sql
+> > SELECT * FROM TaxiDataYellow limit 1000
+> > ````
+> > 실행 시간: **~3.13 초**, 데이터 스캔: **~328.82MB**
+> 
+> > **Parquet 형식:**
+> > ````sql
+> > SELECT count(*) as count FROM NYTaxiRides
+> > ````
+> > 실행 시간: **~5.76 초**, 데이터 스캔: **0KB**, 카운트: **2,870,781,820**
+> > ````sql
+> > SELECT * FROM NYTaxiRides limit 1000
+> > ````
+> > 실행 시간: **~1.13 초**, 데이터 스캔: **~5.2MB**
 
-
-2. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides by year
+2. **New Query**를 선택하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query**를 선택하여 총 택시 수를 얻습니다.
 
 ```sql
     SELECT YEAR, count(1) as TotalCount from NYTaxiRides GROUP BY YEAR
 ```
-
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다.
 ![athenagroupbyyearquery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenagroupbyyearquery-nytaxi.png)
 
-3. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to get the top 12 months by total number of rides across all the years
+3. **New Query**를 선택하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query**를 선택 하면 모든 년도를 통틀어 승차수가 가장 높은 12달의 결과를 얻을 수 있습니다.
 
 ```sql
     SELECT YEAR, MONTH, COUNT(1) as TotalCount 
@@ -235,11 +230,10 @@ Results for the above query look like the following:
     GROUP BY (1), (2) 
     ORDER BY (3) DESC LIMIT 12
 ```
-Results for the above query look like the following:
-
+위 쿼리의 결과는 다음과 같습니다.
 ![athenacountbyyearquery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacountbyyearquery-nytaxi.png)
 
-4. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to get the monthly ride counts per taxi time for the year 2016.
+4. **New Query**를 선택하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query**를 선택하여 2016년 택시 당 월간 승차수를 계산 합니다.
 
 ```sql
     SELECT MONTH, TYPE, COUNT(1) as TotalCount 
@@ -248,14 +242,12 @@ Results for the above query look like the following:
     GROUP BY (1), (2)
     ORDER BY (1), (2)
 ```
-Results for the above query look like the following:
-
+위 쿼리의 결과는 다음과 같습니다.
 ![athenagroupbymonthtypequery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenagroupbymonthtypequery-nytaxi.png)
 
->**Note:**
-Now the execution time is ~ 3 second, as the amount of data scanned by the query is restricted thus improving performance. This is because the data set is partitioned and it in optimal format – Apache Parquet, an open source columnar format.
+>**Note:** 이제 쿼리에 의해 검색되는 데이터의 양이 제한됨으로써 성능이 향상되기 때문에 실행시간은 ~3초 입니다. 이는 데이터 세트가 최적의 형식으로 분할되어 있기 때문입니다. Apache Parquet은 오픈 소스 컬럼 형식입니다.
 
-5. Choose **New Query**, copy the following statement anywhere into the query pane, and then choose **Run Query**.
+5. **New Query**를 선택하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query**를 선택합니다.
 
 ```sql
     SELECT MONTH,
@@ -269,8 +261,7 @@ Now the execution time is ~ 3 second, as the amount of data scanned by the query
     GROUP BY MONTH, TYPE
     ORDER BY MONTH
 ```
-Results for the above query look like the following:
-
+위 쿼리의 결과는 다음과 같습니다.
 ![athenapercentilequery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenapercentilequery-nytaxi.png)
 
 
