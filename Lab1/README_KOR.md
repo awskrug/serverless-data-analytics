@@ -2,7 +2,7 @@
 
 * [Amazon Athena 데이터 베이스 및 테이블 생성](#creating-amazon-athena-database-and-table)
     * [Athena 데이터 베이스 생성하기](#데이터-베이스-생성하기)
-    * [Athena 테이블 생성](#테이블-생성하기)  
+    * [Athena 테이블 생성하기](#테이블-생성하기)  
 * [Athena를 사용해서 S3에서 데이터 Querying하기](#Athena를-사용해서-S3에서-데이터-Querying하기)
 * [Amazon Athena를 사용하여 분한될 데이터 쿼리하기](#Amazon-Athena를-사용하여-분한될-데이터-쿼리하기)
     * [파티션으로 테이블 만들기](#파티션으로-테이블-만들기)
