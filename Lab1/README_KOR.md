@@ -309,7 +309,7 @@ raw data set에 반복적인 쿼리 없이 한 번에 쿼리 결과를 사용하
 ### Amazon S3 Bucket 생성
 
 1. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2) 열기
-2. S3 대쉬보드에 있는 **Create bucket**을 클릭
+2. S3 대쉬보드에 있는 **버킷 만들기** 클릭
 
 ![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
 
@@ -324,7 +324,7 @@ raw data set에 반복적인 쿼리 없이 한 번에 쿼리 결과를 사용하
 
 ![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
 
-### Repartitioning the dataset using CTAS Query 
+
 
 ### CTAS 쿼리를 사용하여 데이터셋 Repatitioning
 
@@ -349,7 +349,7 @@ FROM nytaxirides where year = 2016 and (vendorid = '1' or vendorid = '2')
 > **Note:**
 > 쿼리를 다시 시도하기 전에 외부 저장소로 지정된 Amazon S3 저장소를 삭제해야합니다. Amazon S3 버킷을 삭제하면 안됩니다.
 
-### Repartitioning and Bucketing the dataset using CTAS Query 
+
 
 ### CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
 
