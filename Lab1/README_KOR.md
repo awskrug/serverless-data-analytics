@@ -176,7 +176,7 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 ```
 반환 된 결과에는 2009년 부터 2016년 까지 매달 택시 type (노란색, 녹색, fhv) 별로 NYTaxiRides에 추가 된 파티션에 대한 정보가 포함됩니다.
 
-> **Note:** MSCK REPAIR TABLE은 뉴욕 택시 승차 데이터를 기반으로 한 데이터를 Amazon S3 버킷에 자동으로 추가하는 것은 데이터가 이미 년도, 월 및 type별로 분할된 Apache Parquet 형식으로 변환되었기 때문이며, 여기서 type은 택시의 type(노란색, 녹색, fhv) 입니다.  만일 데이터 레이아웃이 MSCK REPAIR TABLE의 요구 사항으로 확인되지 않다면 대체 방법은 ALTER TABLE ADD PARTITION 을 사용하여 각 파티션을 수동으로 추가하는 것입니다. JDBC 드라이버를 사용하여 파티션 추가를 자동화 할 수도 있습니다.
+> **Note:** MSCK REPAIR TABLE은 뉴욕 택시 승차 데이터를 기반으로 한 데이터를 Amazon S3 버킷에 자동으로 추가하는 것이며, 이는 데이터가 이미 년도, 월 및 type별로 분할된 Apache Parquet 형식으로 변환되었기 때문입니다. 여기서 type은 택시의 type(노란색, 녹색, fhv) 입니다.  만일 데이터 레이아웃이 MSCK REPAIR TABLE의 요구 사항으로 확인되지 않다면 대체 방법은 ALTER TABLE ADD PARTITION 을 사용하여 각 파티션을 수동으로 추가하는 것입니다. JDBC 드라이버를 사용하여 파티션 추가를 자동화 할 수도 있습니다.
 
 ### 분할 된 데이터 집합 쿼리하기
 
