@@ -296,40 +296,41 @@ SELECT * FROM nytaxiridesmonthly WHERE vendorid = '1'
 
 시도할 view 명령어로는  [SHOW COLUMNS](https://docs.aws.amazon.com/athena/latest/ug/show-columns.html), [SHOW CREATE VIEW](https://docs.aws.amazon.com/athena/latest/ug/show-create-view.html), [DESCRIBE VIEW](https://docs.aws.amazon.com/athena/latest/ug/describe-view.html), 그리고 [DROP VIEW](https://docs.aws.amazon.com/athena/latest/ug/drop-view.html) 가 있습니다.
 
-## CTAS Query with Amazon Athena
+## Amazon Athena의 CTAS 쿼리
 
-A CREATE TABLE AS SELECT (CTAS) query creates a new table in Athena from the results of a SELECT statement from another query. Athena stores data files created by the CTAS statement in a specified location in Amazon S3. For syntax, see [CREATE TABLE AS](https://docs.aws.amazon.com/athena/latest/ug/create-table-as.html).
+A CREATE TABLE AS SELECT(CTAS) 쿼리는 다른 쿼리의 SELECT 문의 결과를 Athena에 새로운 테이블로 만들 수 있습니다. Altena는 CTAS문으로 생성된 데이터 파일들을 Amazon S3의 특정 위치에 저장합니다. 문법을 보려면 [CREATE TABLE AS](https://docs.aws.amazon.com/athena/latest/ug/create-table-as.html) 를 참조하십시오.
 
-Use CTAS queries to:
+CTAS 쿼리의 기능:
 
-Create tables from query results in one step, without repeatedly querying raw data sets. This makes it easier to work with raw data sets.
-Transform query results into other storage formats, such as Parquet and ORC. This improves query performance and reduces query costs in Athena. For information, see [Columnar Storage Formats](https://docs.aws.amazon.com/athena/latest/ug/columnar-storage.html).
-Create copies of existing tables that contain only the data you need.
+raw data set에 반복적인 쿼리 없이 한 번에 쿼리 결과를 사용하여 테이블을 생성합니다. 이렇게 하면 raw data set으로 작업하기가 더 쉬워집니다.
+쿼리 결과를 Parquet 및 ORC 같은 다른 저장 형식으로 변환합니다. 이는 쿼리의 성능을 높혀주고 Athena에서 쿼리의 비용을 줄여줍니다. 자세한 정보는 [Columnar Storage Formats](https://docs.aws.amazon.com/athena/latest/ug/columnar-storage.html).를 참조하십시오.
+필요한 데이터만 포함하는 기존 테이블의 복사본을 생성합니다.
 
-### Create an Amazon S3 Bucket
+### Amazon S3 Bucket 생성
 
-1. Open the [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2)
-2. On the S3 Dashboard, Click on **Create Bucket**. 
+1. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2) 열기
+2. S3 대쉬보드에 있는 **Create bucket**을 클릭
 
 ![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
 
-3. In the **Create Bucket** pop-up page, input a unique **Bucket name**. So it’s advised to choose a large bucket name, with many random characters and numbers (no spaces). 
 
-    1. Select the region as **Oregon**. 
-    2. Click **Next** to navigate to next tab. 
-    3. In the **Set properties** tab, leave all options as default. 
-    4. In the **Set permissions** tag, leave all options as default.
-    5. In the **Review** tab, click on **Create Bucket**
+
+3. **버킷만들기** 팝업 페이지에서 고유한 **버킷 이름**을 입력합니다. 고유한 버킷 이름을 사용해야 하기 때문에 비컷의 이름으로 많은 랜덤한 문자와 숫자를 공백없이 사용할것을 추천드립니다.
+   1. 리전을 미국 서부(오레곤)으로 선택
+   2. 다음 탭으로 이동하려면 **Next** 클릭
+   3. **옵션 구성** 탭에서 모든 옵션을 기본값으로 설정
+   4. **권한 설정** 탭에서 모든 옵션을 기본값으로 설정
+   5. **검토** 탭에서 **버킷 만들기** 클릭
 
 ![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
 
 ### Repartitioning the dataset using CTAS Query 
 
-1. Ensure that current AWS region is **US West (Oregon)** region
+### CTAS 쿼리를 사용하여 데이터셋 Repatitioning
 
-2. Ensure **mydatabase** is selected from the DATABASE list.
-
-3. Choose **New Query**, copy the following statement anywhere into the query pane, and then choose **Run Query**.
+1. 현재 AWS 리전이 **미국 서부(오레곤)** 리전인지 확인합니다.
+2. 데이터베이스 리스트에서 **mydatabase**가 선택되어있는지 확인합니다.
+3. **New Query**를 선택하고 쿼리 창 어디에나 다음 명령문을 붙여넣은 다음에 **Run Query**를 선택합니다. 
 
 ```sql
 CREATE TABLE ctas_nytaxride_partitioned 
@@ -343,14 +344,16 @@ AS select
 FROM nytaxirides where year = 2016 and (vendorid = '1' or vendorid = '2')
 ```
 
-Go the Amazon S3 bucket specified as the external location and inspect the format and key structure in which the new objects are written in.
+외부 저장소로 지정된 Amazon S3 버킷으로 이동하여 새 객체가 기록된 형식 및 키 구조를 검사합니다.
 
->**Note:**
-> Please delete the Amazon S3 location specified as the external location before retrying the query. Donot delete the Amazon S3 bucket.
+> **Note:**
+> 쿼리를 다시 시도하기 전에 외부 저장소로 지정된 Amazon S3 저장소를 삭제해야합니다. Amazon S3 버킷을 삭제하면 안됩니다.
 
 ### Repartitioning and Bucketing the dataset using CTAS Query 
 
-4. Choose **New Query**, copy the following statement anywhere into the query pane, and then choose **Run Query**.
+### CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
+
+4. **New Query**를 선택하고 쿼리 창 어디에나 다음 명령문을 붙여넣은 다음에 **Run Query**를 선택합니다. 
 
 ```sql
 CREATE TABLE ctas_nytaxride_bucketed_partitioned 
@@ -365,17 +368,17 @@ AS select
 FROM nytaxirides where year = 2016 
 ```
 
->**Note:**
-> This query will take approximately 6 minutes.
+> **Note:**
+> 이 쿼리는 약 6분이 소요됩니다.
 
-Go the Amazon S3 bucket specified as the external location and inspect the format and key structure in which the new objects are written in.
+외부 저장소로 지정된 Amazon S3 버킷으로 이동하여 새 객체가 기록된 형식 및 키 구조를 검사합니다.
 
->**Note:**
-> Please delete the Amazon S3 location specified as the external location before retrying the query. Donot delete the Amazon S3 bucket.
+> **Note:**
+> 쿼리를 다시 시도하기 전에 외부 저장소로 지정된 Amazon S3 저장소를 삭제해야합니다. Amazon S3 버킷을 삭제하면 안됩니다.
 
-Please refer to [Partitioning Vs. Bucketing](https://docs.aws.amazon.com/athena/latest/ug/bucketing-vs-partitioning.html) for more details.
+자세한 정보는 [Partitioning Vs. Bucketing](https://docs.aws.amazon.com/athena/latest/ug/bucketing-vs-partitioning.html) 을 참조하십시오.
 
----
+------
 
 ## License
 
