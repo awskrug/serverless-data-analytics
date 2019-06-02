@@ -4,16 +4,15 @@
     * [Athena 데이터 베이스 생성하기](#데이터-베이스-생성하기)
     * [Athena 테이블 생성하기](#테이블-생성하기)  
 * [Athena를 사용해서 S3에서 데이터 Querying하기](#Athena를-사용해서-S3에서-데이터-Querying하기)
-* [Amazon Athena를 사용하여 분한될 데이터 쿼리하기](#Amazon-Athena를-사용하여-분한될-데이터-쿼리하기)
+* [Amazon Athena를 사용하여 분할될 데이터 쿼리하기](#Amazon-Athena를-사용하여-분한될-데이터-쿼리하기)
     * [파티션으로 테이블 만들기](#파티션으로-테이블-만들기)
     * [Amazon athena에 파티션 메타 데이터 추가하기](#Amazon-athena에-파티션-메타-데이터-추가하기)
     * [분할 된 데이터 집합 쿼리하기](#분할-된-데이터-집합-쿼리하기)
 * [Amazon  Athena로 View 생성하기](#Amazon--Athena로-View-생성하기)
-* [CTAS Query with Amazon Athena](#ctas-query-with-amazon-athena)
-    * [Create an Amazon S3 Bucket](#create-an-amazon-s3-bucket)
-    * [Repartitioning the dataset using CTAS Query](#repartitioning-the-dataset-using-ctas-query)
-    * [Repartitioning and Bucketing the dataset using CTAS Query](#repartitioning-and-bucketing-the-dataset-using-ctas-query)
-      
+* [Amazon athena의 CTAS 쿼리](#ctas-query-with-amazon-athena)
+    * [Amazon S3 Bucket 생성](#create-an-amazon-s3-bucket)
+    * [CTAS 쿼리를 사용하여 데이터셋 Repatitioning](#repartitioning-the-dataset-using-ctas-query)
+    * [CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing](#repartitioning-and-bucketing-the-dataset-using-ctas-query)
 ## Architectural Diagram
 ![architecture-overview-lab1.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/Screen+Shot+2017-11-17+at+1.11.18+AM.png)
 
@@ -128,7 +127,7 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 위의 query에 대한 결과는 다음과 같습니다 :
 ![athenacasequery-yelllowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacasequery-yelllowtaxi.png)
 
-## Amazon Athena를 사용하여 분한될 데이터 쿼리하기
+## Amazon Athena를 사용하여 분할될 데이터 쿼리하기
 
 데이터를 분할시킴으로써 각 쿼리가 스캔하는 데이터의 양을 제한할 수 있게 되고, 그것으로 인해 성능을 향상 시키고 비용을 절감 할 수 있습니다. Athena는 Hive를 활용하여 데이터를 [파티셔닝](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AlterPartition) 합니다. 임의의 키로 데이터를 분할 할 수 있습니다. 일반적으로 시간을 기준으로 데이터를 분할하여 여러 수준(multi-level)의 파티셔닝 스키마를 생성하는 경우가 많습니다. 예를 들면, 매시간마다 데이터가 들어오는 고객은 년, 월, 일 및 시간별로 파티션을 결정할 수 있습니다. 여러 다른 소스에서 데이터를 전송하지만 하루에 한번만 로드되는 다른 고객의 경우에어는 데이터 소스 식별자 및 날짜별로 분할 할 수 있습니다.
 
