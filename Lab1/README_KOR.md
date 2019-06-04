@@ -9,10 +9,10 @@
     * [Amazon athena에 파티션 메타 데이터 추가하기](#Amazon-athena에-파티션-메타-데이터-추가하기)
     * [분할 된 데이터 집합 쿼리하기](#분할-된-데이터-집합-쿼리하기)
 * [Amazon  Athena로 View 생성하기](#Amazon--Athena로-View-생성하기)
-* [Amazon athena의 CTAS 쿼리](#ctas-query-with-amazon-athena)
-    * [Amazon S3 Bucket 생성](#create-an-amazon-s3-bucket)
-    * [CTAS 쿼리를 사용하여 데이터셋 Repatitioning](#repartitioning-the-dataset-using-ctas-query)
-    * [CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing](#repartitioning-and-bucketing-the-dataset-using-ctas-query)
+* [Amazon athena의 CTAS 쿼리](#Amazon athena의-CTAS-쿼리)
+    * [Amazon S3 Bucket 생성](#Amazon-S3-Bucket 생성)
+    * [CTAS 쿼리를 사용하여 데이터셋 Repatitioning](#CTAS-쿼리를-사용하여-데이터셋-Repatitioning)
+    * [CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing](#CTAS-쿼리를-이용하여-데이터셋-Repatitioning-및-Bucketing)
 ## Architectural Diagram
 ![architecture-overview-lab1.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/Screen+Shot+2017-11-17+at+1.11.18+AM.png)
 
@@ -350,7 +350,7 @@ FROM nytaxirides where year = 2016 and (vendorid = '1' or vendorid = '2')
 
 
 
-### CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
+### git gitCTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
 
 4. **New Query**를 선택하고 쿼리 창 어디에나 다음 명령문을 붙여넣은 다음에 **Run Query**를 선택합니다. 
 
