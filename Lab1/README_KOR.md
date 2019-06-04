@@ -350,7 +350,7 @@ FROM nytaxirides where year = 2016 and (vendorid = '1' or vendorid = '2')
 
 
 
-### git gitCTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
+### CTAS 쿼리를 이용하여 데이터셋 Repatitioning 및 Bucketing
 
 4. **New Query**를 선택하고 쿼리 창 어디에나 다음 명령문을 붙여넣은 다음에 **Run Query**를 선택합니다. 
 
