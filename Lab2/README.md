@@ -6,13 +6,14 @@
     * [Create Athena Table](#create-a-table)
 * [Signing up for Amazon Quicksight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
 * [Configuring Amazon QuickSight to use Amazon Athena as data source](#configuring-amazon-quicksight-to-use-amazon-athena-as-data-source)
-* [Visualizing the data using Amazon QuickSight](#visualizing-the-data-using-amazon-quicksight)
-    * [Add year based filter to visualize the dataset for the year 2016](#add-year-based-filter-to-visualize-the-dataset-for-the-year-2016)
-    * [Add the month based filter for the month of January](#add-the-month-based-filter-for-the-month-of-january)
-    * [Visualize the data by hour of day for the month of January 2016](#visualize-the-data-by-hour-of-day-for-the-month-of-january-2016)
-    * [Visualize the data for the month of January 2016 for all taxi types(yellow, green, fhv)](#visualize-the-data-for-the-month-of-january-2016-for-all-taxi-typesyellow-green-fhv)
-
+* [Amazon QuickSight를 사용하여 데이터 시각화](#amazon-quicksight를-사용하여-데이터-시각화)
+  
+    * [연도 기반 필터를 추가하여 2016년 데이터 셋을 시각화](#연도-기반-필터를-추가하여-2016년-데이터-셋을-시각화)
+    * [1월을 위한 월 기준 필터 추가](#1월을-위한-월-기준-필터-추가)
+    * [2016년 1월 한 달 동안의 시간 데이터를 시각화](#2016년-1월-한-달-동안의-시간-데이터를-시각화)
+    * [모든 택시 타입(yellow, green, fhv)에 대한 2016년 1월 한 달동안의 데이터를 시각화](#모든-택시-타입(yellow,-green,-fhv)에-대한-2016년-1월-한-달동안의-데이터를-시각화)
     
+      
 
 ## Architectural Diagram
 ![architecture-overview-lab2.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/architecture-overview-lab2.png)
@@ -201,70 +202,84 @@ v. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
 
 11. Choose **Save and Visualize** on top of the page.
 
-## Visualizing the data using Amazon QuickSight
+## Amazon QuickSight를 사용하여 데이터 시각화
 
-Now that you have configured the data source and created a new filed to represent the hour of the day, in this section you will filter the data by year followed by month to visualize the taxi data for the entire month of January 2016 based on the **pickup_datetime** field.
+이제 데이터 소스를 구성하고 시간을 나타내는 새 파일을 만들었으므로 이 섹션에서는 연도별로 데이터를 필터링하여 **pickup_datetime** 필드를 기반으로 2016년 1월 전체 달 동안 택시 데이터를 시각화 합니다.
 
-### Add year based filter to visualize the dataset for the year 2016
+### 연도 기반 필터를 추가하여 2016년 데이터 셋을 시각화
 
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage14.PNG)
 
-1. Ensure that current AWS region is **US West (Oregon)** region.
+1. 현재 AWS 리전이 **미국 서부(오레곤)** 인지 확인하십시오.
 
-2. Under the **Fields List**, select the **year** field to show the distribution of fares per year.
+2. **필드 목록**에서 **year** 필드를 선택하여 연도별 요금 분포를 표시하십시오.
 
-3. To reformat the **year** without comma
+3. **year**를 쉼표없이 재 포맷 하려면,
 
-   i. Select the dropdown arrow for the **year **field.
+   i. **year** 필드에 대한 드롭다운 화살표를 선택하십시오
 
-   ii. Select **Format 1,234.5678 **from the dropdown menu.
+   ii. 드롭다운 메뉴에서  **Format 1,234.5678 **를 선택하십시오.
 
-   iii. Select **1235**.
+   iii. **1235** 를 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage15.PNG)
 
-4. To add a filter on the **year** filed, 
+4. **year** 필드에 필터를 추가하려면, 
 
-   i. Select the dropdown for **year** field from the **Fields list**.
+   i. **Fields list** 에서 **year** 필드에 대한 드롭다운 메뉴를 선택하십시오.
 
-   ii. Select **Add filter to the field** from the dropdown menu.
+   ii. 드롭다운메뉴에서 **Add filter to the field**를 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage16.PNG)
 
-5. To filter the data only for the year 2016
+5. 2016년에만 데이터를 필터링하려면,
 
-   i. Choose the new filter that you just created by clicking on **#** next to filter name **year** under the **Edit filter** menu.
+   i.  **필터 편집** 메뉴에서 필터 이름 옆에 있는 **#**을 클릭하여 방금 만든 새로운 필터를 선택하십시오.
   
-   ii. Select **Filter list** for the two dropdowns under the filter name.
+   ii. 필터 이름 아래의 두 드롭타운에 대하여 **필터 리스트**를 선택하십시오.
   
-   iii. Deselect **Select All**.
+   iii. **Select All**를 체크해제하십시오.
   
-   iv. Select only **2016**.
+   iv. **2016** 만 선택하십시오.
   
-   v. Click **Apply**.
+   v. **Apply**를 클릭하십시오.
   
-   vi. Click **Close**.
+   vi. **Close**를 클릭하십시오.
 
-### Add the month based filter for the month of January
+### 1월을 위한 월 기준 필터 추가
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage17.PNG)
 
-1. Ensure that current AWS region is **US West(Oregon)** region.
-2. Select **Visualize** from the navigation menu in the left-hand corner.
-3. Under the **Fields list**, deselect **year** by clicking on **year** field name.
-4. Select **month** by clicking on the **month** field name from the **Fields list**.
+1. 현재 AWS 리전이 **미국 서부(오레곤)** 인지 확인하십시오.
 
-5. To filter the data set for the month of January (Month 1)
+2. 왼쪽에 있는 네비게이션 메뉴에서 **Visualize**를 선택하십시오.
 
-   i. Select the dropdown arrow for **month** field under the **Fields List**.
+3. **Fields list**에서 **year**필드를 클릭하여 **year**를 선택해제하십시오.
 
-   ii. Select **Add filter to the field**.
+4. **Fields list**의 **month** 필드를 클릭하여 **month**를 선택하십시오.
+
+5. 1월에 대한 데이터 셋을 필터링하려면,
+
+   i. **Fields list** 에서 **month** 필드에 대한 드롭다운 메뉴를 선택하십시오.
+
+   ii. 드롭다운메뉴에서 **Add filter to the field**를 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage18.PNG)
 
-6. To filter the data for month of January 2016 (Month 1),
+6. 2016년 1월에 대한 데이터를 필터링 하고 싶으면,
 
+   i.  **필터 편집** 메뉴에서 필터 이름 옆에 있는 **#**을 클릭하여 방금 만든 새로운 필터를 선택하십시오.
+
+   ii. 필터 이름 아래의 두 드롭타운에 대하여 **필터 리스트**를 선택하십시오.
+
+   iii. **Select All**를 체크해제하십시오.
+
+   iv. **1** 만 선택하십시오.
+
+   v. **Apply**를 클릭하십시오.
+
+<<<<<<< Updated upstream
    i. Choose the new filter that you just created by clicking on **#** next to filter name **month** under the **Edit Filter** menu.
 
    ii. Select **Filter list** for the two dropdowns under the filter name.
@@ -276,37 +291,40 @@ Now that you have configured the data source and created a new filed to represen
    v. Click **Apply**
 
    vi. Click **Close**.
+=======
+   vi. **Close**를 클릭하십시오.
+>>>>>>> Stashed changes
 
-### Visualize the data by hour of day for the month of January 2016
+###  2016년 1월 한 달 동안의 시간 데이터를 시각화
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage19.PNG)
 
-1. Select **Visualize** from the navigation menu in the left-hand corner.
-2. Under the **Fields list**, deselect **month** by clicking on **month** field name.
-3. Select **hourofday** by clicking on the **hourofday** field name from the **Fields list**.
-4. Change the visual type to a line chart by selecting the line chart icon highlighted in the screenshot below under **Visual types**.
-5. Using the slider on x-axis, select the entire range [0,23] for **hourofday** field.
+1. 왼쪽에 있는 네비게이션 메뉴에서 **Visualize**를 선택하십시오.
+2. **Fields list**에서 **month**필드를 클릭하여 **month**를 선택해제하십시오.
+3. **Fields list**의 **hourofday** 필드를 클릭하여 **hourofday**를 선택하십시오.
+4. **Visual types**에 있는 스크린샷에서 강조된 꺽은선 차트 아이콘을 선택하여 보기형식을 꺽은선 차트로 변경하시오.
+5. x축의 슬라이더를 사용하여 **hourofday** 필드에 대한 전체 범위를 선택하시오.
 
-### Visualize the data for the month of January 2016 for all taxi types(yellow, green, fhv)
+###  모든 택시 타입(yellow, green, fhv)에 대한 2016년 1월 한 달동안의 데이터를 시각화
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage20.PNG)
 
-1. Click on the double drop-down arrow underneath your username at the top-right corner of the page to reveal **X-axis**, **Value** and **Color** under **Field wells**.
-2. Under the **Fields list**, deselect **hourofday** by clicking on **hourofday** field name.
-3. Select **pickup_datetime** for x-axis by clicking on the **pickup_datetime **field name from **Fields list**.
-4. Select **type** for Color by clicking on the **type** field name from **Fields list.**
+1. 페이지의 오른쪽 상단 모서리에 있는 사용자 이름 아래의 더블 드롭다운 화살표를 클릭하여 **Field wells** 아래에 **X축**, **값** 및 **색상**을 표시하십시오.
+2. **Fields list**에서 **hourofday**필드를 클릭하여 **hourofday**를 선택해제하십시오..
+3. **Fields list**에서 **pickup_datetime ** 필드를 클릭하여 x축으로 **pickup_datetime**를 선택하시오 .
+4. **Fields list**에서 **type** 필드를 클릭하여 색상으로 **type**를 선택하시오.
 
-5. Click on the field name **pickup_datetime** in x-axis to reveal a sub-menu.
-6. Select **Aggregate:Day** to aggregate by day.
+5. x축의 필드 **pickup_datetime**를 선택하여 하위 메뉴를 표시하시오.
+6. 일별로 집계하기 위해 **Aggregate:Day**를 선택하시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage21.PNG)
-8. Using the slider on x-axis, select the entire month of January 2016 for **pickup_datetime** field.
+8. x축의 슬라이더를 사용하여 **pickup_datetime** 필드에 대해 2016년 1월 전체를 선택하시오.
 
 
-> Note: The interesting outlier in the above graph is that on Jan23rd, 2016, you see the dip in the number of taxis across all types. Doing a quick google search for that date, gets us this weather article from NBC New York
+> Note: 위 그래프에서 흥미로운 이상치는 2016년 1월 23일에 모든 유형의 택시 수의 감소를 볼 수 있다는 것입니다. 그 날짜를 구글로 검색해 보면, NBC 뉴욕에서 이 날짜에 대한 날씨 정보를 얻을 수 있습니다.
 > ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage22.PNG)
 
-*Using Amazon Qu.ickSight, you were able to see patterns across a time-series data by building visualizations, performing ad-hoc analysis, and quickly generating insights.*
+*Amazon QuickSight를 사용하여 시각화를 구축하고, 애드혹 분석을 시행하며, 통찰력을 빠르게 생성함으로써 시계열 데이터의 패턴을 볼 수 있습니다*
 
 ---
 ## License
