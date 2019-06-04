@@ -2,10 +2,11 @@
 
 * [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
 * [Creating Amazon Athena Database and Table](#creating-amazon-athena-database-and-table)
+    
     * [Create Athena Database](#create-database)
     * [Create Athena Table](#create-a-table)
-* [Signing up for Amazon Quicksight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
-* [Configuring Amazon QuickSight to use Amazon Athena as data source](#configuring-amazon-quicksight-to-use-amazon-athena-as-data-source)
+* [ Amazon Quicksight Standard Edition 가입하기](# Amazon-Quicksight-Standard-Edition-가입하기)
+* [ Amazon Athena를 데이터 소스로 사용하도록 Amazon QuickSight 구성하기](# Amazon-Athena를-데이터-소스로-사용하도록-Amazon-QuickSight-구성하기)
 * [Amazon QuickSight를 사용하여 데이터 시각화](#amazon-quicksight를-사용하여-데이터-시각화)
   
     * [연도 기반 필터를 추가하여 2016년 데이터 셋을 시각화](#연도-기반-필터를-추가하여-2016년-데이터-셋을-시각화)
@@ -103,104 +104,103 @@ v. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
 ```
 반환된 결과는 2009년부터 2016년까지 매월 각 택시 유형(노란색, 녹색, FHV)에 대해 NYTaxiRides에 추가된 파티션에 대한 정보를 포함하고 있습니다. 
 
-## Signing up for Amazon Quicksight Standard Edition
+## Amazon Quicksight Standard Edition 가입하기
 
-1. Open the [AWS ManagementConsole for QuickSight](https://us-east-1.quicksight.aws.amazon.com/sn/start).
+1. [AWS ManagementConsole for QuickSght](https://us-east-1.quicksight.aws.amazon.com/sn/start)를 여십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage1.PNG)
 
-2. If this is the first time you are accessing QuickSight, you will see a sign-uplanding page for QuickSight. 
-3. Click on **Sign up for QuickSight**.
+2. 처음으로 QuickSight에 액세스하는 경우 QuickSight용 로그인 페이지가 표시됩니다.
+3. **QucikSight 가입**을 클릭하십시오.
 
-> **Note:** Chrome browser might timeout at this step. If that's the case, try this step in Firefox/Microsoft Edge/Safari.
+>**Note:** 이 단계에서 Chorme브라우저가 시간초과 되는 현상이 나타날 수 있습니다. 이 경우에는  Firefox/Microsoft Edge/Safari 브라우저를 이용하여 시도하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage2.PNG)
 
-4. On the next page, for the subscription type select the **"Standard Edition"** and click **Continue**. 
+4. 다음 페이지에서 가입 유형에 **Standard Edition**을 선택하고 **Continue** 를 클릭하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage3.PNG)
 
-5. On the next page,
+5. 다음 페이지 에서, 
 
-   i. Enter a unique **QuickSight account name.**
+   i. **QuickSight account name**에 고유한 계정을 입력하시오.
 
-   ii. Enter avalid email for **Notification email address**.
+   ii. **Notification email address**에 유효한 e-mail 주소를 입력하시오.
 
-   iii. Just for this step, leave the **QuickSight capacity region **as **N.Virginia**. 
+   iii. **QuickSight capacity region **은  **N.Virginia**로 그대로 남겨 두십시오. 
 
-   iv. Ensure that **Enable autodiscovery of your data and users in your Amazon Redshift, Amazon RDS and AWS IAM Services** and **Amazon Athena** boxes are checked. 
-
-   v. **Click Finish**. 
-
-   vi. You will be presented with a with message **Congratulations**! **You are signed up for Amazon QuickSight! **on successful sign up. Click on **Go to Amazon QuickSight**. 
+   iv. **Enable autodiscovery of your data and users in your Amazon Redshift, Amazon RDS and AWS IAM Services** 와 **Amazon Athena** 이 체크 되어 있는 것을 확인하십시오.
+   
+   v. **Finsih**를 클릭하십시오.
+   
+   vi. 가입에 성공했다면 **Congratulations! You are signed up for Amazon QuickSight!**라는 메세지가 나타날 것입니다. 그 후 **Go to Amazon QuickSight**를 클릭하십시오.
+   
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage4.PNG)
 
-6. On the Amazon QuickSight dashboard, navigate to User Settings page on the Top-Right section and click **Manage QuickSight**.
+6. Amazon QuickSight 대시 보드에서 오른쪽 상단 섹션의 사용자 설정 페이지로 이동하여 **Manage QuickSight**를 클릭하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage5.PNG)
 
-7. In this section, click on **Account Settings**.
-8. Under Account Settings, in **Account Permissions** Click **Edit AWS Permissions**.
+7. 이 섹션에서 **Account Setting**를 클릭하십시오.
+8. 계정 설정의 **Account Permissions**에서 **Edit AWS Permissions**를 클립하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage6.PNG)
 
-9. Check the box for **Amazon S3** and you will see a pop-up to select Amazon S3 buckets.
-10. Ensure **Select All **is checked.
-11. Click on **Select buckets**.
+9. **Amazon S3**를 선택 체크한다면, Amazon S3 버킷을 선택할 수 있는 팝업이 표시됩니다.
+10. **Select All**이 선택되어 있는지 확인하십시오.
+11. **Select buckets**을 클릭하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage7.PNG)
 
-12. Check the box for **Amazon S3 Storage Analytics**[Optional].
-13. Click **Apply**.
+12. **Amazon S3 Storage Analytics**[선택사항] 을 선택하십시오.
+13. **Apply**를 클릭하십시오.
 
-## Configuring Amazon QuickSight to use Amazon Athena as data source
+## Amazon Athena를 데이터 소스로 사용하도록 Amazon QuickSight 구성하기
 
-> For this lab, you will need to choose the **US West (Oregon)** region. 
+> 이 실험에서는 **US West(Oregon)** 지역을 선택해야합니다.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage8.PNG)
 
-1. Click on the region icon on the top-right corner of the page, and select **US West (Oregon)**. 
+1. 페이지 오른쪽 상단 모서리에 있는 지역 아이콘을 클릭하고 **US West (Oregon)** 지역을 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage9.PNG)
 
-2. Click on **Manage data** on the top-right corner of the webpage to review existing data sets.
-3. Click on **New data set** on the top-left corner of the webpage and review the options. 
+2. 기존 데이터 세트를 검토하려면 웹 페이지의 오른쪽 상당에 있는 **Manage data**를 클릭하십시오.
+3. 웹 페이지의 왼쪽 상다에 있는 **New data set**를 클릭하고 옵션들을 검토하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage10.PNG)
 
-4. Select **Athena** as a Data source.
+4. **Athena**를 데이터 소스로 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage11.PNG)
 
-5. Enter the **Data source** **name** (e.g. *AthenaDataSource*).
-6. Click **Create data source**.
-7. Select the **mydatabase** database.
+5. **Data source name**을 입력하십시오(예: *AthenaDataSource*).
+6. **Create data source**를 클릭하십시오.
+7. **mydatabase**를 데이터베이스로 선택하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage12.PNG)
 
-8. Choose the **nytaxirides** table.
-9. Choose **Edit/Preview** data.
+8. **nytaxirides** 테이블을 선택하십시오.
+9. **Edit/Preview data**를 선택하십시오.
 
-> This is a crucial step. Please ensure you choose **Edit/Preview** data.
+>중요한 단계 입니다. **Edit/Preview data**를 선택한 것을 확인하십시오.
 
 ![image](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/qsimage13.PNG)
 
-10. Under **Fields** on the left column, choose **New field**
+10. 왼쪽 열의 **Fields**에서 **New Field**를 선택하십시오.
 
-    i. Select the **extract** operation from Function list.
+   i. Funtion list에서 **extract**를 선택하십시오.
 
-    ii. Select **pickup_datetime** from the **Field list**.
+   ii. **Field list**에서 **pickup_datetime**을 선택하십시오.
 
-    iii. For **Calculated field name**, type **hourofday**.
+   iii. **Calculated filed name**에 **hourofday**를 입력하십시오.
 
-    iv. Type ‘HH’ so the Formula is **extract('HH',{pickup_datetime})**
+   iv. 'HH'를 입력하여 **extract('HH',{pickup_datetime})**로 Formula를 채우십시오.
 
-    v. Choose **Create** to add a field which is calculated from an existing field. In this case, the **hourofday** field is calculated from the **pickup_datetime filed** based on the specified formula.
+   v. **Create**를 선택 하여 기존 필드에서 계산 된 필드를 추가하십시오. 이 경우 **hourofday** 필드는 지정된 formlua를 기반으로 **pickup_datetime filed**에서 계산 됩니다.
 
-
-
-11. Choose **Save and Visualize** on top of the page.
+11. 페이지 상단에 **Save and Visualize**를 선택하십시오.
 
 ## Amazon QuickSight를 사용하여 데이터 시각화
 

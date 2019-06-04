@@ -79,6 +79,7 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
 ````
 
 >**Note:** 
+>
 >-	Amazon Athena에서 EXTERNAL 키워드가 있는 테이블만 만들수 있기 때문에 EXTERNAL 키워드 없이 CREATE TABLE을 사용하면 오류가 발생합니다. 항상 EXTERNAL 키워드를 사용하는 것이 좋습니다. 테이블을 drop 하면 테이블 메타데이터만 제거되고 데이터는 Amazon S3에 남아있습니다.
 >-	또한 Amazon Athena를 실행하는 지역 이외의 지역에서 데이터를 query할 수 도 있습니다. Amazon S3 표준 지역간 데이터 전송 속도는 표준 Athena 요금과 함께 적용됩니다.
 >-	선택한 데이터베이스에 대한 카탈로그 대시보드에 방금 생성한 테이블이 나타나는지 확인하십시오.
@@ -124,6 +125,8 @@ Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터
     WHERE total_amount > 0
     GROUP BY (1)
 ````
+>**Note**:  SQL  select문의 해석순서[^1]
+
 위의 query에 대한 결과는 다음과 같습니다 :
 ![athenacasequery-yelllowtaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacasequery-yelllowtaxi.png)
 
@@ -217,6 +220,7 @@ Athena 데이터 카탈로그에 파티션 메타 데이터를 추가 했으므�
 
 ```sql
     SELECT YEAR, count(1) as TotalCount from NYTaxiRides GROUP BY YEAR
+    /*NYTaxiRides 테이블로 부터 YEAR로 그룹화 한다음 각 년도마다의 횟수를 조회하시오.*/
 ```
 위 쿼리의 결과는 다음과 같습니다.
 ![athenagroupbyyearquery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenagroupbyyearquery-nytaxi.png)
@@ -228,6 +232,7 @@ Athena 데이터 카탈로그에 파티션 메타 데이터를 추가 했으므�
     FROM NYTaxiRides 
     GROUP BY (1), (2) 
     ORDER BY (3) DESC LIMIT 12
+    /*NYTaxiRides 테이블로 부터 YEAR와 MONTH를 이용하여 그룹화 한다음 YEAR,MONTH 그리고 총 횟수를 조회하시오. 단, 총횟수를 기준으로 하여 내림차순으로 상위 12 행만 조회하시오.*/
 ```
 위 쿼리의 결과는 다음과 같습니다.
 ![athenacountbyyearquery-nytaxi.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacountbyyearquery-nytaxi.png)
@@ -382,3 +387,6 @@ FROM nytaxirides where year = 2016
 ## License
 
 This library is licensed under the Apache 2.0 License. 
+
+------
+[^1]: from -> where -> group by -> having -> select -> order by
