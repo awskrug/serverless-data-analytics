@@ -278,22 +278,8 @@ v. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
    iv. **1** 만 선택하십시오.
 
    v. **Apply**를 클릭하십시오.
-
-<<<<<<< Updated upstream
-   i. Choose the new filter that you just created by clicking on **#** next to filter name **month** under the **Edit Filter** menu.
-
-   ii. Select **Filter list** for the two dropdowns under the filter name.
-
-   iii. Deselect **ALL**.
-
-   iv. Select only **1**.
-
-   v. Click **Apply**
-
-   vi. Click **Close**.
-=======
+   
    vi. **Close**를 클릭하십시오.
->>>>>>> Stashed changes
 
 ###  2016년 1월 한 달 동안의 시간 데이터를 시각화
 
