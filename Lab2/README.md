@@ -1,10 +1,10 @@
 # Lab 2:  Amazon QuickSight를 이용한 시각화
 
-* [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
-* [Creating Amazon Athena Database and Table](#creating-amazon-athena-database-and-table)
+* [Amazon S3 bucket 생성하기](#Amazon-S3-bucket-생성하기)
+* [Amazon Athena Database and Table 생성하기](#Amazon-Athena-Database-and-Table-생성하기)
   
-    * [Create Athena Database](#create-database)
-    * [Create Athena Table](#create-a-table)
+    * [데이터 베이스 생성하기](#데이터-베이스-생성하기)
+    * [Athena 테이블 생성](#Athena-테이블-생성)
 * [ Amazon Quicksight Standard Edition 가입하기](#Amazon-Quicksight-Standard-Edition-가입하기)
 * [ Amazon Athena를 데이터 소스로 사용하도록 Amazon QuickSight 구성하기](#Amazon-Athena를-데이터-소스로-사용하도록-Amazon-QuickSight-구성하기)
 * [Amazon QuickSight를 사용하여 데이터 시각화](#amazon-quicksight를-사용하여-데이터-시각화)
@@ -70,7 +70,7 @@ v. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
 
 ![athenacatalog.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacatalog.png)
 
-### Create a Table
+### Athena 테이블 생성
 
 1. 현재 지역이 **US West (Oregon)** 지역인지 확인하십시오.
 2. 데이터베이스 목록에서 **mydatabase**가 선택되었는지 확인한 다음 **New Query**를 선택하십시오.
