@@ -207,7 +207,7 @@ Athena 데이터 카탈로그에 파티션 메타 데이터를 추가 했으므�
 > > ````sql
 > > SELECT count(*) as count FROM NYTaxiRides
 > > ````
-> > 실행 시간: **~5.76 초**, 데이터 스캔: **0KB**, 카운트: **2,870,781,820**
+> > 실행 시간: **~5.76 초**, 데이터 스캔: **0KB**[^1], 카운트: **2,870,781,820**
 > > ````sql
 > > SELECT * FROM NYTaxiRides limit 1000
 > > ````
@@ -382,3 +382,5 @@ FROM nytaxirides where year = 2016
 ## License
 
 This library is licensed under the Apache 2.0 License. 
+
+[^1]: Parquet 포맷은 메타데이터에 데이터 갯수를 포함함
