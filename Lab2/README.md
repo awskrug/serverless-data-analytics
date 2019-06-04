@@ -2,11 +2,11 @@
 
 * [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
 * [Creating Amazon Athena Database and Table](#creating-amazon-athena-database-and-table)
-    
+  
     * [Create Athena Database](#create-database)
     * [Create Athena Table](#create-a-table)
-* [ Amazon Quicksight Standard Edition 가입하기](# Amazon-Quicksight-Standard-Edition-가입하기)
-* [ Amazon Athena를 데이터 소스로 사용하도록 Amazon QuickSight 구성하기](# Amazon-Athena를-데이터-소스로-사용하도록-Amazon-QuickSight-구성하기)
+* [ Amazon Quicksight Standard Edition 가입하기](#Amazon-Quicksight-Standard-Edition-가입하기)
+* [ Amazon Athena를 데이터 소스로 사용하도록 Amazon QuickSight 구성하기](#Amazon-Athena를-데이터-소스로-사용하도록-Amazon-QuickSight-구성하기)
 * [Amazon QuickSight를 사용하여 데이터 시각화](#amazon-quicksight를-사용하여-데이터-시각화)
   
     * [연도 기반 필터를 추가하여 2016년 데이터 셋을 시각화](#연도-기반-필터를-추가하여-2016년-데이터-셋을-시각화)
