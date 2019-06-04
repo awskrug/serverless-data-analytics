@@ -1,4 +1,4 @@
-# Lab 2: Visualization using Amazon QuickSight
+# Lab 2:  Amazon QuickSight를 이용한 시각화
 
 * [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
 * [Creating Amazon Athena Database and Table](#creating-amazon-athena-database-and-table)
@@ -17,65 +17,62 @@
 ## Architectural Diagram
 ![architecture-overview-lab2.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab2/architecture-overview-lab2.png)
 
+## Amazon S3 bucket 생성하기
 
-## Create an Amazon S3 bucket
-> Note: If you have already have an S3 bucket in your AWS Account you can skip this section. 
+> Note: AWS 계정에 S3 버킷이 이미 있는 경우 이 섹션을 생략할 수 있습니다.
 
-1. Open the [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2)
-2. On the S3 Dashboard, Click on **Create Bucket**. 
-
-![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
-
-3. In the **Create Bucket** pop-up page, input a unique **Bucket name**. So it’s advised to choose a large bucket name, with many random characters and numbers (no spaces). 
-
-    1. Select the region as **Oregon**. 
-    2. Click **Next** to navigate to next tab. 
-    3. In the **Set properties** tab, leave all options as default. 
-    4. In the **Set permissions** tag, leave all options as default.
-    5. In the **Review** tab, click on **Create Bucket**
-
-![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
-
-## Creating Amazon Athena Database and Table
-
-> Note: If you have complete the [Lab 1: Serverless Analysis of data in Amazon S3 using Amazon Athena](../Lab1) you can skip this section and go to the next section [Signing up for Amazon Quicksight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition)
-
-Amazon Athena uses Apache Hive to define tables and create databases. Databases are a logical grouping of tables. When you create a database and table in Athena, you are simply describing the schema and location of the table data in Amazon S3\. In case of Hive, databases and tables don’t store the data along with the schema definition unlike traditional relational database systems. The data is read from Amazon S3 only when you query the table. The other benefit of using Hive is that the metastore found in Hive can be used in many other big data applications such as Spark, Hadoop, and Presto. With Athena catalog, you can now have Hive-compatible metastore in the cloud without the need for provisioning a Hadoop cluster or RDS instance. For guidance on databases and tables creation refer [Apache Hive documentation](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL). The following steps provides guidance specifically for Amazon Athena.
+1. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2) 을 여십시오.
+2. S3 대시보드에서 **Create Bucket** 을 클릭하십시오.
 
 ![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
 
-3. In the **Create Bucket** pop-up page, input a unique **Bucket name**. So it’s advised to choose a large bucket name, with many random characters and numbers (no spaces). 
-i.Select the region as **Oregon**. 
-ii. Click **Next** to navigate to next tab. 
-iii. In the **Set properties** tab, leave all options as default. 
-iv. In the **Set permissions** tag, leave all options as default.
-v. In the **Review** tab, click on **Create Bucket**
+3. **Create Bucket** 팝업 페이지에서 고유한 **Bucket name** 을 입력하십시오. 고유한 이름을 위해 많은 임의의 문자와 숫자(공백 없는)가 있는 큰 버킷 이름을 선택하는 것이 좋습니다.
+1. 지역을 **Oregon** 으로 선택하십시오. 
+    2. 다음 탭으로 이동하려면 **Next** 을 클릭하십시오.
+    3. **Set properties** 탭에서 모든 옵션을 기본옵션으로 유지하십시오.
+    4. **Set permissions** 태그에서 모든 옵션을 기본값으로 유지하십시오.
+    5. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
 
 ![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
 
-### Create Database
+## Amazon Athena Database and Table 생성하기
 
-1. Open the [AWS Management Console for Athena](https://console.aws.amazon.com/athena/home).
-2. If this is your first time visiting the AWS Management Console for Athena, you will get a Getting Started page. Choose **Get Started** to open the Query Editor. If this isn't your first time, the Athena **Query Editor** opens.
-3. Make a note of the AWS region name, for example, for this lab you will need to choose the **US West (Oregon)** region.
-4. In the Athena **Query Editor**, you will see a query pane with an example query. Now you can start entering your query in the query pane.
-5. To create a database named *mydatabase*, copy the following statement, and then choose **Run Query**:
+> Note: [Lab 1: Serverless Analysis of data in Amazon S3 using Amazon Athena](../Lab1) 을 완료한 경우 이 섹션을 생략하고 다음 섹션 [Signing up for Amazon Quicksight Standard Edition](#signing-up-for-amazon-quicksight-standard-edition) 으로 넘어가십시오.
 
-````sql
+Amazon Athena는 Apache Hive를 사용하여 테이블을 정의하고 데이터베이스를 생성합니다. 데이터베이스는 테이블의 논리적 그룹입니다. Amazon S3에 있는 테이블 데이터의 스키마와 위치를 기술하는 것으로 Athena에서 데이터베이스와 테이블을 작성할 수 있습니다. Hive의 경우, 기존의 관계형 데이터베이스 시스템과 달리 데이터베이스와 테이블은 데이터를 스키마 정의와 함께 저장하지 않습니다. 이 데이터는 테이블을 조회할 때만 Amazon S3에서 읽힙니다. Hive 사용의 또 다른 이점은 Hive에서 발견된 metastore가 Spark, Hadoop, Presto와 같은 많은 다른 빅데이터 어플리케이션에서 사용될 수 있다는 것입니다. Athena 카탈로그를 사용하면 Hadoop 클러스터 또는 RDS 인스턴스를 프로비저닝 할 필요 없이 클라우드에 Hive와 호환되는 메타스토어를 구축할 수 있습니다. 데이터베이스 및 테이블 작성에 대한 가이드는 [Apache Hive documentation](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL) 를 참조하십시오. 다음 단계에서는 Amazon Athena를 위한 가이드를 제공합니다.
+
+![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
+
+3. **Create Bucket**  팝업 페이지에서 고유한 **Bucket name** 을 입력하십시오. 고유한 이름을 위해 많은 임으의 문자와 숫자(공백 없는)가 있는 긴 버킷 이름을 선택하는 것이 좋습니다.
+i. **Oregon** 지역을 선택하십시오. 
+ii. 다음 탭으로 이동하려면 **Next**  을 클릭하십시오.
+iii. **Set properties** 탭에서 모든 옵션을 기본값으로 유지하십시오.
+iv. **Set permissions** 태그에서 모든 옵션을 기본값으로 유지하십시오.
+v. **Review** 탭에서 **Create Bucket** 를 클릭하십시오.
+
+![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
+
+### 데이터 베이스 생성하기
+
+1. [AWS Management Console for Athena](https://console.aws.amazon.com/athena/home) 를 여십시오.
+2. AWS Management Console for Athena를 처음 방문하는 경우 시작하기 페이지가 표시됩니다. **Get Start** 를 선택하여 **Query Editor** 를 여십시오. 이번이 처음이 아니라면 Athena **Query Editor** 가 열립니다.
+3. AWS 지역이름을 기록하십시오. 예를들면 이 lab의 경우 **US West (Oregon)** 지역을 선택해야 합니다.
+4. Athena **Query Editor** 에서 예제 query가 있는 query 창을 볼 수 있습니다. 이제 query창에서 query 입력을 시작할 수 있습니다.
+5. *mydatabase* 라는 데이터베이스를 생성하려면 다음 문장을 복사하고 **Run Query** 를 선택하십시오: 
+
+```sql
     CREATE DATABASE mydatabase
-````
+```
 
-6.	Ensure *mydatabase* appears in the DATABASE list on the **Catalog** dashboard
+6. **Catalog** 대시보드의 데이터베이스 목록에 *mydatabase*가 표시되는지 확인하십시오. 
 
 ![athenacatalog.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/athenacatalog.png)
 
 ### Create a Table
 
-1. Ensure that current AWS region is **US West (Oregon)** region
-
-2. Ensure **mydatabase** is selected from the DATABASE list and then choose **New Query**.
-
-3. In the query pane, copy the following statement to create a the NYTaxiRides table, and then choose **Run Query**:
+1. 현재 지역이 **US West (Oregon)** 지역인지 확인하십시오.
+2. 데이터베이스 목록에서 **mydatabase**가 선택되었는지 확인한 다음 **New Query**를 선택하십시오.
+3. query 창에서 다음 문장을 복사하여 TaxiDataYellow 테이블을 생성한 다음 **Run Query**를 선택하십시오 :
 
 ````sql
   CREATE EXTERNAL TABLE NYTaxiRides (
@@ -94,16 +91,16 @@ v. In the **Review** tab, click on **Create Bucket**
   LOCATION 's3://us-west-2.serverless-analytics/canonical/NY-Pub'
 ````
 
-4.Ensure the table you just created appears on the Catalog dashboard for the selected database.
+4.방금 생성한 테이블이 선택한 데이터베이스에 대한 카탈로그 대시보드에 나타나는지 확인하십시오.
 
-Now that you have created the table you need to add the partition metadata to the Amazon Athena Catalog.
+테이블이 만들어졌으니 이제 파티션 메타데이터를 Amazon Athena 카탈로그에 추가해야 합니다. 
 
-1. Choose **New Query**, copy the following statement into the query pane, and then choose **Run Query** to add partition metadata.
+1. **New Query** 를 선택하고 다음 문장을 쿼리 창에 복사한 다음 **Run Query** 를 선택하여 파티션 메타데이터를 추가하십시오.
 
 ```sql
     MSCK REPAIR TABLE NYTaxiRides
 ```
-The returned result will contain information for the partitions that are added to NYTaxiRides for each taxi type (yellow, green, fhv) for every month for the year from 2009 to 2016
+반환된 결과는 2009년부터 2016년까지 매월 각 택시 유형(노란색, 녹색, FHV)에 대해 NYTaxiRides에 추가된 파티션에 대한 정보를 포함하고 있습니다. 
 
 ## Signing up for Amazon Quicksight Standard Edition
 
@@ -269,15 +266,15 @@ Now that you have configured the data source and created a new filed to represen
 6. To filter the data for month of January 2016 (Month 1),
 
    i. Choose the new filter that you just created by clicking on **#** next to filter name **month** under the **Edit Filter** menu.
- 
+
    ii. Select **Filter list** for the two dropdowns under the filter name.
- 
+
    iii. Deselect **ALL**.
- 
+
    iv. Select only **1**.
- 
+
    v. Click **Apply**
- 
+
    vi. Click **Close**.
 
 ### Visualize the data by hour of day for the month of January 2016
