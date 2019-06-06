@@ -2,8 +2,8 @@
 
 * [Create an IAM Role](#create-an-iam-role)
 * [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
-* [Discover the Data](#discover-the-data)
-* [Optimize the Queries and convert into Parquet](#optimize-the-queries-and-convert-into-parquet)
+* [데이터 발견하기](#데이터-발견하기)
+* [쿼리를 최적화 하고 Parquet로 변환하기](#쿼리를-최적화-하고-Parquet로-변환하기)
 * [Query the Partitioned Data using Amazon Athena](#query-the-partitioned-data-using-amazon-athena)
 * [Deleting the Glue database, crawlers and ETL Jobs created for this Lab](#deleting-the-glue-database-crawlers-and-etl-jobs-created-for-this-lab)
 * [Summary](#summary)
@@ -59,145 +59,147 @@ nycitytaxianalysis-reinv
 
 2. Now, in this newly created bucket, create two sub-buckets **tmp** and **target** using the same instructions as the above step. We will use these buckets as part of Lab3 later on. 
 
-## Discover the Data
+## 데이터 발견하기
 
-During this workshop, we will focus on one month of the New York City Taxi Records dataset, however you could easily do this for the entire eight years of data. As you crawl this unknown dataset, you discover that the data is in different formats, depending on the type of taxi. You then convert the data to a canonical form, start to analyze it, and build a set of visualizations. All without launching a single server.
+이번 워크샵에서는 뉴욕시 택시 기록 데이터세트 1개월에 초점을 맞춥니다. 하지만 8년간의 전체 데이터 세트에 대해서도 이 작업을 쉽게 수행 할 수 있습니다. 알 수 없는 데이터 세트를 크롤링하게 되면 데이터 유형이 택시 유형에 따라 다른 형식임을 알게 됩니다. 그 다음 표준 형식으로 데이터를 변환하고 분석을 시작하고 일련의 시각화를 합니다. 모든 것은 단일 서버의 실행 없이 이루어 집니다.
 
-> For this lab, you will need to choose the **US West (Oregon)** region. 
+> 이 실험에서는 **US West (Oregin)** 지역을 선택해야 합니다.
 
-1. Open the [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#). 
+1. [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#) 을 여십시오.
 
-2. To analyze all the taxi rides for January 2016, you start with a set of data in S3. First, create a database for this workshop within AWS Glue. A database is a set of associated table definitions, organized into a logical group. In Athena, database names are all lowercase, no matter what you type.
+2. 2016년 1월의 모든 택시 승차수를 분석하기위해 S3에서의 데이터 세트로 시작합니다. 먼저 AWS Glue 내에서 이 워크샵을 위한 데이터 베이스를 만듭니다. 데이터베이스는 논리적인 테이블로 구성되는 연관 테이블 정의 세트 입니다. Athena에서는 입력하 내용에 관계없이 데이터베이스 이름이 모두 소문자입니다.
 
-   i. Click on **Databases** under Data Catalog column on the left. 
-
+   i. 왼쪽의 Data catalog 열 에서  **Databases** 를 클릭하십시오.
+   
    ![glue1](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_1.PNG)
-
-   ii. Click on the **Add Database** button. 
-
-   iii. Enter the Database name as **nycitytaxianalysis-reinv17**. You can skip the description and location fields and click on **Create**. 
-
-3. Click on **Crawlers** under Data Catalog column on the left. 
+   
+   ii. **Add Database** 버튼을 클릭하십시오.
+   
+   iii. 데이터베이스 이름을 **nycitytaxianalysis-reinv17** 로 입력하십시오. 설명 등을 건너 뛰고 **Create**를 클릭하십시오.
+   
+3. 왼쪽에 있는 Data catalog 열 에서 **Crawlers** 를 클릭하십시오.
 
    ![glue2](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_2.PNG)
-
-   i. Click on **Add Crawler** button. 
-
-   ii. Under Add information about your crawler, for Crawler name type **nycitytaxianalysis-crawler-reinv17**. You can skip the Description and Classifiers field and click on **Next**. 
-
-   iii. Under Data Store, choose S3. And Ensure the radio button for **Crawl Data in Specified path** is checked. 
-
-   iv. For Include path, enter the following S3 path and click on **Next**.
+   
+   i. **Add Crawler** 버튼을 클릭하십시오.
+   
+   ii. 크롤러에 대한 정보 추가에서 크롤러 이름에 **nycitytaxianalysis-crawler-reinv17** 를 입력 합니다. 설명 등을 건너 뛰고 **Next** 를 클릭하십시오.
+   
+   iii. Data Store에서 S3를 선택하십시오. 그리고 **Crawl Data in Specified path** 을 위한 버튼이 선택되어 있는지 확인하십시오.
+   
+   iv. Include path에 다음 S3 경로를 입력하고 **Next**를 클릭하십시오.
 
    ```
    s3://serverless-analytics/glue-blog
    ```
-
-   v. For Add Another data store, choose **No** and click on **Next**.
-
-   vi. For Choose an IAM Role, select **Create an IAM role** and enter the role name as following and click on **Next**.
-
+   
+   v. 다른 데이터 저장소 추가에서 **No**를 선택하고 **Next**를 클릭하십시오.
+   
+   vi. IAM의 경우, **Create an IAM role**을 선택하고 다음과 같은 이름을 입력하고 **Next**를 클릭하십시오.
+   
    ```
    nycitytaxianalysis-reinv17-crawler
    ```
+   
+   vii. 이 크롤러에 대한 일정을 만들기 위해 **Run on Demand**를 선택하고 **Next**를 클릭하십시오.
+   
+   viii. 크롤러의 output database와 prefix 설정하기
 
-   vii. For Create a schedule for this crawler, choose Frequency as **Run on Demand** and click on **Next**.
+   ​	a. **Database**로는 앞서 만든 데이터베이스 **nycitytaxianalysis-reinv17** 를 선택하기
+   
+   ​	b. **Prefix added to tables (optional)** 에는  **reinv17_** 를 입력하고 **Next** 클릭하기
 
-   viii. Configure the crawler output database and prefix:
-
-   ​	a. For **Database**, select the database created earlier, **nycitytaxianalysis-reinv17**.
-
-   ​	b. For **Prefix added to tables (optional)**, type **reinv17_** and click on **Next**.
-
-   ​	c. Review configuration and click on **Finish** and on the next page, click on **Run it now** in the green box on the top. 
+   ​	c. 설정을 검토하고 **Finish**클릭, 그 후 다음 페이지에서 맨 위에 있는 녹생상자에서 **Run it now**를 클릭하기
 
    ![glue14](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_14.PNG)
+   ​	d. 크롤러가 실행이 되고 세개의 테이블을 찾았음을 나타내 줌
+   
+4. 왼쪽 열의 Data catalog에서 **Tables**를 클릭하십시오.
 
-   ​	d. The crawler runs and indicates that it found three tables.
+5. **Tables**를 아래를 보면 nycitytaxianalysis-reinv17 데이터베이스에서 생성 된 세 개의 새 테이블을 볼 수 있습니다.
 
-4. Click on **Tables**, under Data Catalog on the left column. 
-
-5. If you look under **Tables**, you can see the three new tables that were created under the database nycitytaxianalysis-reinv17.
-
-   ![glue4](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_4.PNG)
-
-6. The crawler used the built-in classifiers and identified the tables as CSV, inferred the columns/data types, and collected a set of properties for each table. If you look in each of those table definitions, you see the number of rows for each dataset found and that the columns don’t match between tables. As an example, clicking on the reinv17_yellow table, you can see the yellow dataset for January 2017 with 8.7 million rows, the location on S3, and the various columns found.
+    ![glue4](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_4.PNG)
+    
+6. 크롤러는 내장된 분류자(classifier)를 사용하고 테이블을 CSV로 식별하고 열/데이터 유형을 유추하며 각 표에 대한 속성 모음을 수집했습니다. 각 각의 테이블 정의를 보면 데이터 세트의 행의 수와 열이 테이블간 일치하지 않음을 알 수 있습니다. 예를 들면 reinv17_yellow 테이블을 클릭하면 2017년 1월의 870만 개의 노란색 데이터 세트와 S3에서의 위치 그리고 발견된 다양한 열들을 볼 수 있습니다.
 
    ![glue5](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_5.PNG)
 
-## Optimize the Queries and convert into Parquet 
 
-Create an ETL job to move this data into a query-optimized form. You convert the data into a column format, changing the storage type to Parquet, and writing the data to a bucket that you own.
+## 쿼리를 최적화 하고 Parquet로 변환하기
 
-1. Open the [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#). 
+이 데이터를 쿼리 최적화 형식으로 변환하기 위해 ETL 작업을 만듭니다. 데이터를 열 형식으로 변환하고 저장 형식을 Parquet으로 변경하고 소유하고 있는 버켓에 데이터를 작성합니다.
 
-2. Click on **Jobs** under ETL on the left column and then click on the **Add Job** button. 
+1. [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#)를 엽니다.
 
-3. Under Job properties, input name as **nycitytaxianalysis-reinv17-yellow**. Since we will be working with only the yellow dataset for this workshop.
+2. 왼쪽 열의 ETL 아래에 있는 **Jobs**를 클릭 한 다음 **Add Job**버튼을 클릭하십시오.
 
-   i. Under  IAM Role, Choose the IAM role created at the beginning of this lab. 
+3. Job properties에서 이름을 **nycitytaxianalysis-reinv17-yellow**로 입력하십시오. 왜냐하면 우리는 이번 워크샵에서 노란 데이터 세트 만을 사용할 것이기 때문입니다.
 
-   x. Under This job runs, choose the radio button for **A proposed script generated by AWS Glue**.
-
-   xi. For Script file name, enter **nycitytaxianalysis-reinv17-yellow**.
-
-   > For this workshop, we are only working on the yellow dataset. Feel free to run through these steps to also convert the green and FHV dataset. 
-
-   xii. For S3 path where script is stored, click on the Folder icon and choose the S3 bucket created at the beginning of this workshop. **Choose the newly created S3 bucket via the Folder icon**. 
-
-   xiii. For Temporary directory, choose the tmp folder created at the beginning of this workshop. **Choose the S3 bucket via the Folder icon** and click **Next**. 
-
-   > Ensure the temporary bucket is already created/available in your S3 bucket. 
-
+   i. IAM이라면 이번 lab의 시작부분에 작성한 IAM role을 선택하십시오.
+   
+   x. 이 작업에선 **A proposed script generated by AWS Glue**를 선택하십시오.
+   
+   xi. 스크립트 파일이름으로 **nycitytaxianalysis-reinv17-yellow**를 입력하십시오.
+   
+   > 이 워크샵에서는 노란색 데이터 세트에 대해서만 작업하고 있습니다. 녹색 및 FHV 데이터 세트를 변환하려면 이 단계를 자유롭게 실행하십시오.
+   
+   xii. 스크립트가 저장된 S3경로의 경우 폴더 아이콘을 클릭하고 워크샵 시작 부분에 생성된 S3 버킷을 선택하십시오. **폴더 아이콘을 통해 새로 생성된 S3 버킷을 선택하십시오.**
+   
+   xiii. 임시 디렉토리의 경우 워크샵 시작부부엔 생성된 tmp 폴더를 선택하십시오. **폴더 아이콘을 통해 S3 버킷을 선택** 하고 **Next**를 클릭하십시오.
+   
+   > 임시 버킷이 이미 S3 버킷에서 생성되었거나 사용 가능한지 확인하십시오.
+   
    ![glue15](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_15.PNG)
-
-   xiv. Click on Advanced properties, and select **Enable** for Job bookmark.
-
-   xv. Here's a screenshot of a finished job properties window:
-
+   
+   xiv. Advanced properties(고급 속성)을 클릭하고 Job bookmark를 **Enable**로 선택하십시오.
+   
+   xv. 다음은 완료된 작업 속성 창의 스크린 샷입니다.
+   
    ![glue16](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_16.PNG)
+   
+4. **Next**를 클릭하십시오.
 
-4. Click **Next**.
+5. 데이터 원본 선택에서 데이터 원본으로 **reinv17_yellow** 테이블을 선택하고 **Next**를 클릭합니다.
 
-5. Under Choose your data sources, select **reinv17_yellow** table as the data source and click on **Next**.
+   > 이 워크샵에서는 노란색 데이터 세트에 대해서만 작업하고 있습니다. 녹색 및 FHV 데이터 세트를 변환하려면 이 단계를 자유롭게 실행하십시오.
+   
+6. 데이터 대상 선택에서 **Create tables in your data target**을 선택하십시오.
 
-   > For this workshop, we are only working on the yellow dataset. Feel free to run through these steps to also convert the green and FHV dataset. 
-
-6. Under Choose your data targets, select the radio button for **Create tables in your data target**.
-
-   i. For Data store, Choose **Amazon S3**.
-
-   ii. For Format, choose **Parquet**.
-
-   iii. For Target path, **click on the folder icon** and choose the target folder previously created. **This S3 Bucket/Folder will contain the transformed Parquet data**.
+   i. Data sotre의 경우 **Amazon S3**를 선택하십시오.
+   
+   ii. 형식의 경우 **Parquet**을 선택하십시오.
+   
+   iii. 타겟 경로에 대해서는 **폴더 아이콘을 클릭** 후 이전에 작성한 타겟 폴더를 선택하십시오. **S3 버킷/폴더 는 변형된 Parquet 데이터를 포함합니다.**
+   
 
 ![glue17](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_17.PNG)
 
-7. Under Map the source columns to target columns page,
+7. 원본 열에서 타켓 열로 매핑하는 페이지,
 
-   i. Under Target, change the Column name **tpep_pickup_datetime** to **pickup_date**. Click on its respective **data type** field string and change the Column type to **TIMESTAMP** and click on **Update**.
-
-   ii. Under Target, change the Column name **tpep_dropoff_datetime** to **dropoff_date**. Click on its respective **data type** field string and change the Column type to **TIMESTAMP** and click on **Update**.
-
-   iii. Choose **Next**, verify the information and click **Finish**.
+   i. 타겟에서 열 이름 **tpep_pickup_datetime**를 **pickup_date**로 변경하십시오. 해당 **data type** 필드 문자열을 클릭하고 열 타입을 **TIMESTAMP**로 변경하고 **Update**를 클릭하십시오.
+   
+   ii. 타겟에서 열 이름 **tpep_dropoff_datetime** 을 **dropoff_date**로 변경하십시오. 해당 **data type** 필드 문자열을 클릭하고, 열 타입을 **TIMESTAMP**로 변경하고 **Update**를 클릭하십시오.
+   
+   iii. **Next**를 선택하고 정보를 확인한 다음 **Finsh**를 클릭하십시오.
 
 ![glue9](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_9.PNG)
 
-8. On the auto-generated script page, click on **Save** and **Run Job**.
+8. 자동 생성 스크립트 페이지에서 **Save** 및 **Run Job**을 클릭 하십시오.
 
 ![glue10](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_10.PNG)
 
-8. In the parameters pop-up, for Job bookmark, ensure its **Enable** and click on **Run Job**. 
+9. 매개 변수 팝업에서 Job Bookmarks에 대해 **Enable**을 확인하고 **Run Job**을 클릭하십시오.
 
-9. This job will run for roughly around 30 minutes.
+10. 이 작업은 대략 30분 정도 실행됩니다.
 
-   ![glue11](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_11.PNG)
+![glue11](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_11.PNG)
 
-10. You can view logs on the bottom page of the same page.
+11. 같은 페이지의 하단에서 로그를 볼 수 있습니더.
 
-  ![glue12](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_12.PNG)
+![glue12](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_12.PNG)
 
-11. The target folder (S3 Bucket) specified above (step 6 iii) will now have the converted parquet data. 
+12. 위에 지정된 대상 폴더 (S3 Bucket)에서 (step 6 iii)는 이제 변환 된 Parquet 데이터를 가지게 됩니다.
+
 
 ## Query the Partitioned Data using Amazon Athena
 

@@ -1,8 +1,8 @@
 # Lab 4: Analysis of data in Amazon S3 using Amazon Redshift Spectrum
 
 * [Deploying Amazon Redshift Cluster](#deploying-amazon-redshift-cluster)
-* [Running AWS Glue Crawlers](#running-aws-glue-crawlers---csv--parquet-crawler)
-* [Create Redshift Spectrum Scehma and reference external table form AWS Glue Data Catalog Database](#create-redshift-spectrum-scehma-and-reference-external-table-form-aws-glue-data-catalog-database)
+* [AWS Glue Crawlers 실행하기 - CSV 및 Parquet 크롤러](#AWS-Glue-Crawlers-실행하기---CSV-및-Parquet-크롤러)
+* [AWS Glue 데이터 카탈로그 데이터베이스를 구성하는 Redshift Spectrum Scehma 및 참조 외부 테이블 생성하기](#AWS-Glue-데이터-카탈로그-데이터베이스를-구성하는-Redshift-Spectrum-Scehma-및-참조-외부-테이블-생성하기)
 * [Querying data from Amazon S3 using Amazon Redshift Spectrum](#querying-data-from-amazon-s3-using-amazon-redshift-spectrum)
 * [Querying partitioned data using Amazon Redshift Spectrum](#querying-partitioned-data-using-amazon-redshift-spectrum)
 
@@ -35,7 +35,7 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.39+PM.png)
 
 9. Enter the following **Parameters** for **Redshift Cluster Configuration**
-    
+   
     1. Choose *multi-node* for **ClusterType**
     2. Type *2* for the **NumberOfNodes**
     3. For **NodeType** select *dc1.xlarge*
@@ -76,67 +76,65 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.30.42+PM.png)
 
-## Running AWS Glue Crawlers - CSV & Parquet Crawler 
-1. Open [AWS Management Console for Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#)
-2. Go to AWS Glues Crawlers page by clicking on **Crawlers** in the navigation pane
+## AWS Glue Crawlers 실행하기 - CSV 및 Parquet 크롤러
+1. [AWS Management Console for Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#)를 여십시오.
+2. 탐색 창에서 **Crawlers**를 클릭하여 AWS Glues Crawlers 페이지로 이동하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/Screen+Shot+2017-11-17+at+3.02.35+AM.png)
 
-3. Select the AWS Glue Crawler for CSV(e.g. csvCrawler)
-4. Click **Run crawler**
-5. Select the AWS Glue Crawler for CSV(e.g. csvCrawler)
-6. Click **Run crawler**
+3. CSV 용 AWS Glue Crawler를 선택하십시오 (예 : csvCrawler).
+4. **Run crawler**를 클릭하십시오.
+5. CSV 용 AWS Glue Crawler를 선택하십시오 (예 : csvCrawler).
+6. **Run crawler**를 클릭하십시오.
 
-> Note: This may take approximately 5 min for both the crawlers to parse the data in CSV and Parquet format. 
+> Note : 두크롤러가 모두 CSV 및 Parquet 형식의 데이터를 구문 부속하는 데 약 5분이 걸릴 수 있습니다.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+11.08.23+PM.png)
 
-7. Wait for the **Status** of both the crawlers to *Ready* state
+7. 두 크롤러의 **Status**가 *Ready*가 될 때 까지 기다리십시오.
 
-Now that you have run the crawlers lest ensure that new tables *taxi* and *ny_pub* been created. 
+이제 크롤러를 실행하여 새테이블 *taxi* 와 *ny_pub* 가 생성되지 않도록 하십시오.
 
-8. To to the list of databases in the AWS Glue Data Catalog click on **Databases** in the navigation pane.
-9. Click on **taxi-spectrum-db**
+8. AWS Glue Data Catalog 에 있는 데이터베이스 몰고에서 탐색 창에 있는 **Databases**를 클릭하십시오.
+9. **taxi-spectrum-db**를 클릭하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+11.09.32+PM.png)
 
-10. Click on **Tables in taxi-spectrum-db**
+10. **Tables in taxi-spectrum-db**를 클릭하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+11.09.50+PM.png)
 
-11. Click on **taxi** to review the table definition and schema 
-12. Navigate back and click on **ny_pub** to review the table definition and schema
+11. **taxi**를 클릭하여 테이블 정의 및 스키마 컴토를 하십시오.
+12. 뒤로 이동하여 **ny_hub**을 클릭하고 테이블 정의 및 스키마 검토를 하십시오.
 
->**Note:**
->The good news is that you don’t have to create a new table or definition to read the CSV document we just looked at. With AWS Glue crawlers, you have already inferred the schema and created tables namely taxi and ny_pub.
+>**Note :**  방금 살펴본 CSV 문서를 읽을 새 테이블이나 정의를 만들 필요가 없습니다. AWS Glue 크롤러를 사용하면 미리 스키마를 추론하고 taxi 및 ny_pub이라는 테이블을 생성합니다.
 
-13. Click on **View partitions** to review the partition metadata
+13. **View partitions**를 클릭하여 파티션 메타 데이터를 검토 하십시오.
 
->**Note:**
-> The major advantage of Glue Crawlers is that they understand the partitions based on the S3 object prefix and automatically create the table with partitions as part of the crawling. 
+>**Note :** Glue Crawlers의 가장 큰 장점은 S3 객체 prefix를 기반 파티션을 이해하고 크롤링의 일부로 파티션이 있는 테이블을 자동으로 생성한다는 것 입니다.
 
-## Create Redshift Spectrum Scehma and reference external table form AWS Glue Data Catalog Database
 
-1. Open the [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2]) 
-2. Make a note of the AWS region name, for example, for this lab you will need to choose the **US West (Oregon)** region.
-3. Select your Amazon CloudFormation stack *(RedshiftSpectrumLab)*
-4. Click on the **Outputs** tab
-5. Naviage to the **pgWeb** URL
-6. In the pgWeb console ensure that the **SQL Query** tab is selected
-7. Copy the following statement to create a database *(e.g. taxispectrum)* in Redshift Spectrum
+## AWS Glue 데이터 카탈로그 데이터베이스를 구성하는 Redshift Spectrum Scehma 및 참조 외부 테이블 생성하기
+
+1. [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2]) 를 여십시오.
+2. 이 AWS 지역을 **US West (Oregin)** 지역으로 선택하십시오.
+3. Amazon CloudFormation 스택 선택을 하십시오.(RedshiftSpectrumLab)
+4. **Outputs** 탭을 클릭하십시오.
+5. **pgWeb**의 URL을 읽으십시오.
+6. pgWeb 콘솔에서 **SQL Query** 탭이 선택 되었는지 확인 하십시오.
+7. 다음 문장을 복사하여 Redshift Spectrum에서 데이터 베이스 *(예. taxispectrum)*를 만드십시오.
 
 ```sql
   create external schema taxispectrum from data catalog
   database 'taxi-spectrum-db' 
   iam_role '<specify the redshift IAM Role arn from the CloudFormation outputs section>'
 ```
-8. Replace the *<specify the redshift IAM Role arn from the CloudFormation output section'>* in the statment with the value of **redshiftIAMRole** from the **Outputs** tab of the Amazon CloudFromation stack *(RedshiftSpectrumLab)* you created as part of the lab.
-9. 
-> Note: The IAM role must be in single quotes
+8. 문장에 있는 *<specify the redshift IAM Role arn from the CloudFormation output section'>*를 앞선 실험에서 만들었던 Amazon CloudFormation 스택*(RedshiftSpectrumLab)*에 있는  **Outputs** 탭의 **redshiftIAMRole**의 값으로 바꾸십시오.
 
-9. Click **Run Query**
+> **Note:** IAM 역할은 작은 따움표로 묶여야 합니다.
 
-> Note: You can create an external table in Amazon Redshift, AWS Glue, Amazon Athena, or an Apache Hive metastore. For more information, see [Getting Started Using AWS Glue](http://docs.aws.amazon.com/glue/latest/dg/getting-started.html) in the AWS Glue Developer Guide, [Getting Started](http://docs.aws.amazon.com/athena/latest/ug/getting-started.html) in the Amazon Athena User Guide, or [Apache Hive](http://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hive.html) in the Amazon EMR Developer Guide.If your external table is defined in AWS Glue, Athena, or a Hive metastore, you first create an external schema that references the external database. Then you can reference the external table in your SELECT statement by prefixing the table name with the schema name, without needing to create the table in Amazon Redshift. For more information, see [Creating External Schemas for Amazon Redshift Spectrum](http://docs.aws.amazon.com/redshift/latest/dg/c-spectrum-external-schemas.html.)
+9. **Run Query**를 클릭하십시오.
+> **Note:**  Amazon Redshift, AWS Glue, Amazon Athena 또는 Apache Hive 메타 스토어에서 외부 테이블을 만들 수 있습니다. 자세한 내용은 AWS Glue Develpoer Guide의 [Getting Started Using AWS Glue](http://docs.aws.amazon.com/glue/latest/dg/getting-started.html) , Amazon Athena User Guide의 [Getting Started](http://docs.aws.amazon.com/athena/latest/ug/getting-started.html) 또는 Amazon Athena User Guide의 [Apache Hive](http://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hive.html)를 참조하십시오. 외부 테이블이 AWS Glue, Athena 또는 Hive 메타 스토어 로 정의 되어 있다면 먼저 외부 데이터베이스를 참조하는 외부 스키마를 만듭니다. 그런 다음 Amazon Redshift에서 테이블을 생성할 필요 없이 테이블 이름 앞에 스키마 이름을 붙임으로써 SELECT 문에서 외부 테이블을 참조 할 수 있습니더. 자세한 내용은 [Creating External Schemas for Amazon Redshift Spectrum](http://docs.aws.amazon.com/redshift/latest/dg/c-spectrum-external-schemas.html.)를 참조하십시오.
 
 ## Querying data from Amazon S3 using Amazon Redshift Spectrum
 
