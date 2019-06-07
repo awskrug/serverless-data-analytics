@@ -1,7 +1,7 @@
-# Lab 3: Serverless ETL and Data Discovery using Amazon Glue
+# Lab 3: Amazon Glue를 사용한 Serverless ETL 및 Data Discovery
 
-* [Create an IAM Role](#create-an-iam-role)
-* [Create an Amazon S3 bucket](#create-an-amazon-s3-bucket)
+* [IAM 역할 생성하기](#IAM-역할-생성하기)
+* [Amazon S3 bucket 생성하기](#Amazon-S3-bucket-생성하기)
 * [데이터 발견하기](#데이터-발견하기)
 * [쿼리를 최적화 하고 Parquet로 변환하기](#쿼리를-최적화-하고-Parquet로-변환하기)
 * [Query the Partitioned Data using Amazon Athena](#query-the-partitioned-data-using-amazon-athena)
@@ -11,53 +11,51 @@
 ## Architectural Diagram
 ![architecture-overview-lab3.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/Screen+Shot+2017-11-17+at+1.11.32+AM.png)
 
-## Create an IAM Role
+## IAM 역할 생성하기
 
-Create an IAM role that has permission to your Amazon S3 sources, targets, temporary directory, scripts, **AWSGlueServiceRole** and any libraries used by the job. You can click [here](https://console.aws.amazon.com/iam/home?region=us-west-2#/roles) to create a new role. For additional documentation to create a role [here](docs.aws.amazon.com/cli/latest/reference/iam/create-role.html).
+Amazon S3 소스, 타겟, 임시 디렉토리, 스크립트 **AWSGlueServiceRole**  및 작업에서 사용하는 모든 라이브러리에 대한 권한이 있는 IAM 역할을 생성합니다.  [여기](https://console.aws.amazon.com/iam/home?region=us-west-2#/roles) 를 클릭하여 새 역할을 만들 수 있습니다. 역할을 생성하는 추가 문서를 보려면 [이곳](docs.aws.amazon.com/cli/latest/reference/iam/create-role.html)을 클릭하십시오.
 
-1. On the IAM Page, click on **Create Role**.
-2. Choose the service as **Glue** and click on **Next: Permissions** on the bottom.
-3. On the Attach permissions policies, search policies for S3 and check the box for **AmazonS3FullAccess**. 
+1. IAM 페이지에서 **Create Role** 을 누르십시오.
+2. 서비스를 **Glue** 로 선택하고 **Next: Permissions** 을 클릭하십시오.
+3. 사용 권한 연결 정책에서 S3에 대한 정책을 검색하고 **AmazonS3FullAccess** 에 대한 확인란을 선택하십시오.
 
-> Do not click on the policy, you just have to check the corresponding checkbox. 
+> 정책을 클릭하지 말고 해당 확인란을 선택하십시오.
 
-4. On the same page, now search policies for Glue and check the box for **AWSGlueServiceRole** and **AWSGlueConsoleFullAccess**.
+4. 같은 페이지에서 Glue에 대한 정책을 검색하고 **AWSGlueServiceRole** 및 **AWSGlueConsoleFullAccess** 확인란을 선택하십시오.
 
-> Do not click on the policy, you just have to check the corresponding checkbox. 
+> 정책을 클릭하지 말고 해당 확인란을 선택하십시오.
 
-5. Click on **Next: Review**.
-6. Enter Role name as 
+5. **Next: Review** 을 클릭하십시오.
+6. 역할 이름을 다음과 같이 입력하십시오. 
 
 ```
 nycitytaxianalysis-reinv
 ```
 
-​	and click Finish.
+​	Finish 를 클릭하십시오.
 
-## Create an Amazon S3 bucket
+## Amazon S3 bucket 생성하기
 
-1. Open the [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2)
-2. On the S3 Dashboard, Click on **Create Bucket**. 
+1. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home?region=us-west-2) 을 여십시오.
+2. S3 대시보드에서 **Create Bucket** 을 클릭하십시오. 
 
 ![createbucket.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucket.png)
 
-1. In the **Create Bucket** pop-up page, input a unique **Bucket name**. So it’s advised to choose a large bucket name, with many random characters and numbers (no spaces). It will be easier to name your bucket
+1. **Create Bucket** 팝업 페이지에서 고유한 **Bucket name**을 입력하십시오. 많은 임의의 문자와 숫자(공백 없는)가 있는 긴 버킷 이름을 선택하는 것이 좋습니다. 
 
    ```
    aws-glue-scripts-<YOURAWSACCOUNTID>-us-west-2
    ```
 
-   and it would be easier to choose/select this bucket for the remainder of this Lab3. 
-
-   i.Select the region as **Oregon**. 
-   ii. Click **Next** to navigate to next tab. 
-   iii. In the **Set properties** tab, leave all options as default. 
-   iv. In the **Set permissions** tag, leave all options as default.
-   v. In the **Review** tab, click on **Create Bucket**
+   i.**Oregon** 지역을 선택하십시오. 
+ii. **Next** 를 눌러 다음 탭으로 이동하십시오. 
+   iii. **Set properties** 탭에서 모든 옵션을 기본값으로 유지하십시오. 
+   iv. **Set permissions** 태그에서 모든 옵션을 기본값으로 유지하십시오.
+   v.  **Review** 탭에서 **Create Bucket** 을 클릭하십시오.
 
 ![createbucketpopup.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab1/createbucketpopup.png)
 
-2. Now, in this newly created bucket, create two sub-buckets **tmp** and **target** using the same instructions as the above step. We will use these buckets as part of Lab3 later on. 
+2. 이제 새로 생성된 버킷에서 위의 단계와 동일한 방법을 사용하여 두 개의 하위 버킷 **tmp** 와 **target** 을 생성하십시오. 이 버킷들은 Lab3의 나중에 사용할 것 입니다.
 
 ## 데이터 발견하기
 
