@@ -3,8 +3,8 @@
 * [Amazon Redshift 클러스터 배포하기](#Amazon-Redshift-클러스터-배포하기)
 * [AWS Glue Crawlers 실행하기 - CSV 및 Parquet 크롤러](#AWS-Glue-Crawlers-실행하기---CSV-및-Parquet-크롤러)
 * [AWS Glue 데이터 카탈로그 데이터베이스를 구성하는 Redshift Spectrum Scehma 및 참조 외부 테이블 생성하기](#AWS-Glue-데이터-카탈로그-데이터베이스를-구성하는-Redshift-Spectrum-Scehma-및-참조-외부-테이블-생성하기)
-* [Querying data from Amazon S3 using Amazon Redshift Spectrum](#querying-data-from-amazon-s3-using-amazon-redshift-spectrum)
-* [Querying partitioned data using Amazon Redshift Spectrum](#querying-partitioned-data-using-amazon-redshift-spectrum)
+* [Amazon Redshift Spectrum를 사용하여 Amazon S3에서 데이터 쿼리](#Amazon-Redshift-Spectrum를-사용하여-Amazon-S3에서-데이터-쿼리)
+* [Amazon Redshift Spectrum를 사용하여 분할된 데이터 쿼리](#Amazon-Redshift-Spectrum를-사용하여-분할된-데이터-쿼리)
 
 
 ## Architectural Diagram
@@ -36,8 +36,8 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
 
 9. **Redshift Cluster Configuration** 에 대해 다음 **parameters** 를 입력하십시오.
   1. **ClusterType** : *multi-node* 를 선택하십시오.
-    2. **NumberOfNodes** : *2* 를 입력하십시오.
-    3. **NodeType**  : *dc1.xlarge* 를 선택하십시오.
+        2. **NumberOfNodes** : *2* 를 입력하십시오.
+            3. **NodeType**  : *dc1.xlarge* 를 선택하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.57+PM.png)
 
@@ -135,30 +135,30 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
 9. **Run Query**를 클릭하십시오.
 > **Note:**  Amazon Redshift, AWS Glue, Amazon Athena 또는 Apache Hive 메타 스토어에서 외부 테이블을 만들 수 있습니다. 자세한 내용은 AWS Glue Develpoer Guide의 [Getting Started Using AWS Glue](http://docs.aws.amazon.com/glue/latest/dg/getting-started.html) , Amazon Athena User Guide의 [Getting Started](http://docs.aws.amazon.com/athena/latest/ug/getting-started.html) 또는 Amazon Athena User Guide의 [Apache Hive](http://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-hive.html)를 참조하십시오. 외부 테이블이 AWS Glue, Athena 또는 Hive 메타 스토어 로 정의 되어 있다면 먼저 외부 데이터베이스를 참조하는 외부 스키마를 만듭니다. 그런 다음 Amazon Redshift에서 테이블을 생성할 필요 없이 테이블 이름 앞에 스키마 이름을 붙임으로써 SELECT 문에서 외부 테이블을 참조 할 수 있습니더. 자세한 내용은 [Creating External Schemas for Amazon Redshift Spectrum](http://docs.aws.amazon.com/redshift/latest/dg/c-spectrum-external-schemas.html.)를 참조하십시오.
 
-## Querying data from Amazon S3 using Amazon Redshift Spectrum
+## Amazon Redshift Spectrum를 사용하여 Amazon S3에서 데이터 쿼리
 
-Now that you have created the schema, you can run queries on the data set and see the results in PGWeb Console.
+이제 스키마를 만들었으므로 데이터 세트에 대해 쿼리를 실행하고 PGWeb Console에서 결과를 볼 수 있습니다.
 
-1. Copy the following statement into the query pane, and then choose **Run Query**.
+1. 다음 문장을 쿼리창에 복사한 후 **Run Query** 를 선택하십시오.
 
 ```sql
     SELECT * FROM taxispectrum.taxi limit 10
 ```
 
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 
 ![Screen Shot 2017-11-14 at 9.16.45 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+9.16.45+PM.png)
 
-2.	Copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides for yellow cabs. 
+2.	다음 문장을 쿼리창에 복사한 후 **Run Query** 를 선택해 yellow cabs의 총 택시 탑승 횟수를 조회하십시오.
 
 ```sql
     SELECT COUNT(1) as TotalCount FROM taxispectrum.taxi
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 
 ![Screen Shot 2017-11-14 at 9.25.23 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+9.25.23+PM.png)
 
-3. Copy the following statement into the query pane, and then choose **Run Query** to query for the number of rides per vendor, along with the average fair amount for yellow taxi rides
+3. 다음 문장을 쿼리창에 복사한 후 **Run Query** 를 선택해 노란 택시 탑승횟수에 대한 평균 fair amount와 함께 공급 업체 당 타는 횟수를 조회하십시오.
 
 ```sql
     SELECT 
@@ -173,38 +173,38 @@ Results for the above query look like the following:
     GROUP BY (1)
 ```
 
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 
 ![Screen Shot 2017-11-14 at 9.46.55 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+9.46.55+PM.png)
 
-## Querying partitioned data using Amazon Redshift Spectrum
+## Amazon Redshift Spectrum를 사용하여 분할된 데이터 쿼리
 
-By partitioning your data, you can restrict the amount of data scanned by each query, thus improving performance and reducing cost. Amazon Redshift Spectrum leverages Hive for [partitioning](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AlterPartition) data. You can partition your data by any key. A common practice is to partition the data based on time, often leading to a multi-level partitioning scheme. For example, a customer who has data coming in every hour might decide to partition by year, month, date, and hour. Another customer, who has data coming from many different sources but loaded one time per day, may partition by a data source identifier and date.
+데이터를 분할함으로써 각 쿼리에 의해 스캔되는 데이터의 양을 제한할 수 있으므로 성능이 향상되고 비용이 절감됩니다. Amazon Redshift Spectrum은 데이터를 [분할](https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-AlterPartition)하기 위해 Hive를 활용합니다. 임의의 키로 데이터를 분할할 수 있습니다.일반적으로 시간을 기준으로 데이터를 분할하여 여러 수준의 파티셔닝 스키마를 생성하는 경우가 많습니다. 예를 들어, 매시간 데이터가 들어오는 고객은 년, 월, 일 및 시간별로 파티션을 결정할 수 있습니다. 많은 다른 소스에서 데이터를 가져오지만 하루에 한 번 로드하는 또 다른 고객은 데이터 소스 식별자와 날짜로 분할할 수 있습니다.
 
 
-Now that you have added the partition metadata to the Athena data catalog you can now run your query.
+Athena 데이터 카탈로그에 파티션 메타 데이터를 추가 했으므로 이제 쿼리를 실행할 수 있습니다.
 
-1. Copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides
+1. 다음 문장을 쿼리창에 복사한 후 **Run Query** 를 선택해 총 택시 탑승 횟수를 조회하십시오.
 
 ```sql
     SELECT count(1) as TotalCount from taxispectrum.ny_pub
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 
 ![Screen Shot 2017-11-14 at 10.08.50 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+10.08.50+PM.png)
 
 >**Note:**
-> This query executes much faster because the data set is partitioned and it in optimal format - Apache Parquet (an open source columnar).
+> 이 쿼리는 데이터 세트가 분할되고 최적의 형식인 Apache Parquet(열린 소스 열)으로 이루어지기 때문에 훨씬 더 빨리 실행됩니다.
 
-2. Copy the following statement into the query pane, and then choose **Run Query** to get the total number of taxi rides by year
+2. 다음 문을 쿼리 창에 복사 한 다음 **Run Query**을 선택하여 연도 별 총 택시 탑승 횟수를 조회하십시오.
 
 ```sql
     SELECT YEAR, count(1) as TotalCount from taxispectrum.ny_pub GROUP BY YEAR
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 ![Screen Shot 2017-11-14 at 10.11.47 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+10.11.47+PM.png)
 
-3. Copy the following statement into the query pane, and then choose **Run Query** to get the top 12 months by total number of rides across all the years
+3. 다음 문을 쿼리 창에 복사 한 다음 **Run Query**을 선택하여 모든 연도의 총 택시 탑승 횟수를 기준으로 상위 12달을 조회하십시오.
 
 ```sql
     SELECT YEAR, MONTH, COUNT(1) as TotalCount 
@@ -212,10 +212,10 @@ Results for the above query look like the following:
     GROUP BY (1), (2) 
     ORDER BY (3) DESC LIMIT 12
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 ![Screen Shot 2017-11-14 at 10.13.54 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+10.13.54+PM.png)
 
-4. Copy the following statement into the query pane, and then choose **Run Query** to get the monthly ride counts per taxi time for the year 2016.
+4. 다음 문을 쿼리 창에 복사 한 다음 **Run Query**을 선택하여 2016년의 월간 택시 탑승 횟수를 조회하십시오.
 
 ```sql
     SELECT MONTH, TYPE, COUNT(1) as TotalCount 
@@ -224,10 +224,10 @@ Results for the above query look like the following:
     GROUP BY (1), (2)
     ORDER BY (1), (2)
 ```
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 ![Screen Shot 2017-11-14 at 10.18.08 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+10.18.08+PM.png)
 
-5. Copy the following statement anywhere into the query pane, and then choose **Run Query**.
+5. 다음 문을 쿼리 창에 복사 한 다음 **Run Query**을 선택하십시오.
 
 ```sql
     SELECT MONTH, TYPE,
@@ -243,20 +243,20 @@ Results for the above query look like the following:
     ORDER BY MONTH
 ```
 
-Results for the above query look like the following:
+위 쿼리의 결과는 다음과 같습니다:
 
 ![Screen Shot 2017-11-14 at 10.23.51 PM.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-14+at+10.23.51+PM.png)
 
-## Deleting the Amazon CloudFormation Stack
+## Amazon CloudFormation Stack 삭제
 
-Now that you have successfully queried the dataset using Amazon Redshift Spectrum, you need to tear down the stack that you deployed using the Amazon CloudFormation template.
+이제 Amazon Redshift Spectrum을 사용하여 데이터 세트를 성공적으로 쿼리했으므로 Amazon CloudFormation 템플릿을 사용하여 배포한 스택을 분리해야 합니다.
 
-1. Open the [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2) 
-2. Enable the check box next to the name of the stack *(e.g. RedshiftSpectrumLab)* that you deployed at the beginingo fo the Lab. 
-3. Click on **Actions** drop down button.
-4. Select **Delete Stack**'
-5. Click **Yes, Delete** on the *Delete Stack* pop dialog
-6. Ensure that Amazon CloudFromation stack name *(e.g. RedshiftSpectrumLab)* is no longer showing in the list of stacks.
+1. [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2) 를 여십시오.
+2. 실습의 시작 부분에 배포한 스택이름 *(e.g. RedshiftSpectrumLab)*  옆의 체크박스를 선택하십시오.
+3. 드롭다운 버튼의 **Actions** 을 클릭하십시오.
+4. **Delete Stack** 를 선택하십시오.
+5. Click **Yes, Delete** on the *Delete Stack* 팝업 창에서 **Yes, Delete** 를 클릭하십시오.
+6. Amazon CloudFromation 스택 이름 *(e.g. RedshiftSpectrumLab)* 이 더 이상 스택 목록에 나타나지 않는지 확인하십시오.
 
 ---
 ## License
