@@ -4,9 +4,9 @@
 * [Amazon S3 bucket 생성하기](#Amazon-S3-bucket-생성하기)
 * [데이터 발견하기](#데이터-발견하기)
 * [쿼리를 최적화 하고 Parquet로 변환하기](#쿼리를-최적화-하고-Parquet로-변환하기)
-* [Query the Partitioned Data using Amazon Athena](#query-the-partitioned-data-using-amazon-athena)
-* [Deleting the Glue database, crawlers and ETL Jobs created for this Lab](#deleting-the-glue-database-crawlers-and-etl-jobs-created-for-this-lab)
-* [Summary](#summary)
+* [Amazon Athena를 사용하여 분할 된 데이터 쿼리](#Amazon-Athena를-사용하여-분할-된-데이터-쿼리)
+* [이 실습에서 만든 Glue 데이터베이스, 크롤러 및 ETL Jobs 삭제](#이-실습에서-만든-Glue-데이터베이스,-크롤러-및-ETL-Jobs-삭제)
+* [요약](#요약)
 
 ## Architectural Diagram
 ![architecture-overview-lab3.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/Screen+Shot+2017-11-17+at+1.11.32+AM.png)
@@ -199,96 +199,96 @@ ii. **Next** 를 눌러 다음 탭으로 이동하십시오.
 12. 위에 지정된 대상 폴더 (S3 Bucket)에서 (step 6 iii)는 이제 변환 된 Parquet 데이터를 가지게 됩니다.
 
 
-## Query the Partitioned Data using Amazon Athena
+## Amazon Athena를 사용하여 분할 된 데이터 쿼리
 
-In regions where AWS Glue is supported, Athena uses the AWS Glue Data Catalog as a central location to store and retrieve table metadata throughout an AWS account. The Athena execution engine requires table metadata that instructs it where to read data, how to read it, and other information necessary to process the data. The AWS Glue Data Catalog provides a unified metadata repository across a variety of data sources and data formats, integrating not only with Athena, but with Amazon S3, Amazon RDS, Amazon Redshift, Amazon Redshift Spectrum, Amazon EMR, and any application compatible with the Apache Hive metastore.
+AWS Glue가 지원되는 지역에서 Athena는 AWS Glue Data Catalog를 중앙 위치로 사용하여 AWS 계정 전체에 테이블 메타 데이터를 저장하고 검색합니다. Athena 실행 엔진은 어디서 데이터를 읽을지, 어떻게 읽을지, 데이터를 처리하는데 필요한 다른 정보를 알려주는 테이블 메타데이터를 필요로 합니다.  AWS Glue Data Catalog는 Athena뿐만 아니라 Amazon S3, Amazon RDS, Amazon Redshift, Amazon Redshift Spectrum, Amazon EMR 및 Apache Hive metastore와 호환되는 모든 애플리케이션과 통합되는 다양한 데이터 소스와 데이터 형식에 걸쳐 통합된 메타데이터 저장소를 제공합니다.
 
-1. Open the [AWS Management console for Amazon Athena](https://us-west-2.console.aws.amazon.com/athena/home?force&region=us-west-2). 
+1. [AWS Management console for Amazon Athena](https://us-west-2.console.aws.amazon.com/athena/home?force&region=us-west-2) 를 여십시오. 
 
-   > Ensure you are in the **US West (Oregon)** region. 
+   > **미국 서부(오레곤)** 지역인지 확인하십시오. 
 
-2. Under Database, you should see the database **nycitytaxianalysis-reinv17** which was created during the previous section. 
+2. 이전 섹션에서 작성된 **nycitytaxianalysis-reinv17** 데이터베이스를 보십시오.
 
-3. Click on **Create Table** right below the drop-down for Database and click on **Automatically (AWS Glue Crawler)**.
+3.  데이터베이스의 드롭다운 바로 아래 **Create Table** 을 클릭하고 **Automatically (AWS Glue Crawler)** 를 클릭하십시오.
 
-4. You will now be re-directed to the AWS Glue console to set up a crawler. The crawler connects to your data store and automatically determines its structure to create the metadata for your table. Click on **Continue**.
+4. 이제 크롤러를 설치하기 위해 AWS Glue 콘솔로 이동됩니다. 크롤러는 데이터 저장소에 연결되고 테이블의 메타데이터를 작성하기 위해 해당 구조를 자동으로 결정합니다. **Continue** 를 클릭하십시오.
 
-5. Enter Crawler name as **nycitytaxianalysis-crawlerparquet-reinv17** and Click **Next**.
+5. 크롤러의 이름을  **nycitytaxianalysis-crawlerparquet-reinv17** 으로 입력하고 **Next** 를 클릭하십시오.
 
-6. Select Data store as **S3**.
+6. 데이터 저장소를 **S3** 으로 선택하십시오.
 
-7. Choose Crawl data in **Specified path in my account**.
+7. Crawl data in 에서 **Specified path in my account** 를 선택하십시오.
 
-8. For Include path, click on the folder Icon and choose the **target** folder previously made which contains the parquet data and click on **Next**.
+8. 경로 설정을 위해 폴더 아이콘을 클릭하고 parquet 데이터를 포함하고 있는 이전에 작성된 **target** 폴더를 선택하고 다음을 클릭하십시오.
 
 ![glue18](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_18.PNG)
 
-9. In Add another data store, choose **No** and click on **Next**.
+9. 다른 데이터 저장소 추가에서 **No** 를 선택하고 **Next** 를 클릭하십시오.  
 
-10. For Choose an IAM role, select Choose an existing IAM role, and in the drop-down pick the role made in the previous section and click on **Next**.
+10. IAM 규칙을 선택하려면 Choose an existing IAM role를 선택하고 드롭다운에서 이전 섹션에서 만든 규칙을 선택하고 **Next**를 클릭하십시오.
 
-11. In Create a schedule for this crawler, pick frequency as **Run on demand** and click on **Next**.
+11. Create a schedule for this crawler에서 pick frequency as **Run on demand** and click on **Next**.빈도를 **Run on demand** 으로 선택하고 **Next** 를 클릭하십시오.
 
-12. For Configure the crawler's output, Click **Add Database** and enter **nycitytaxianalysis-reinv17-parquet** as the database name and click **create**. For Prefix added to tables, you can enter a prefix **parq_** and click **Next**.
+12. Configure the crawler's output에서 **Add Database** 를 클릭하고 데이터베이스의 이름을 **nycitytaxianalysis-reinv17-parquet** 으로 입력하고 **create** 를 클릭하십시오. Prefix added to tables에서 접두사에 **parq_** 를 입력하고 **Next** 를 클릭하십시오. 
 
-13. Review the Crawler Info and click **Finish**. Click on **Run it Now?**. 
+13. Review the Crawler Info and click **Finish**. Click on **Run it Now?**. 크롤러의 정보를 확인하고 **Finish** 를 클릭하십시오. **Run it Now?** 를 클릭하십시오.
 
-14. Click on **Tables** on the left, and for database nycitytaxianalysis-reinv17-parquet you should see the table parq_target. Click on the table name and you will see the MetaData for this converted table. 
+14. 왼쪽에 있는 **Table**을 클릭하고 데이터베이스 nycitytaxianalysis-reinv17-parquet에 대해 parq_target 테이블을 보십시오.
 
-15. Open the [AWS Management console for Amazon Athena](https://us-west-2.console.aws.amazon.com/athena/home?force&region=us-west-2). 
+15. [AWS Management console for Amazon Athena](https://us-west-2.console.aws.amazon.com/athena/home?force&region=us-west-2) 를 여십시오. 
 
-    > Ensure you are in the **US West (Oregon)** region. 
+    > **미국 서부(오레곤)** 지역인지 확인하십시오.  
 
-16. Under Database, you should see the database **nycitytaxianalysis-reinv17-parquet** which was just created. Select this database and you should see under Tables **parq_target**.
+16. 데이터베이스에서 방금 생성 된 데이터베이스 **nycitytaxianalysis-reinv17-parquet** 을 볼 수 있습니다. 이 데이터베이스를 선택하면 테이블 **parq_target** 아래에 표시됩니다.
 
-17. In the query editor on the right, type
+17. 오른쪽의 쿼리 편집기에서 다음을 입력하고
 
     ```
     select count(*) from parq_target;
     ```
 
-    and take note the Run Time and Data scanned numbers here. 
+    그리고 실행시간과 데이터 스캔 값을 기록하십시오.
 
     ![glue19](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_comp_scanresult.PNG)
 
-    What we see is the Run time and Data scanned numbers for Amazon Athena to **query and scan the parquet data**.
+     우리가 보는것은 Amazon Athena가 **parquet 데이터를 쿼리하고 스캔 할 수 있는 ** 실행 시간과 데이터 스캔 값 입니다.
 
-18. Under Database, you should see the earlier made database **nycitytaxianalysis-reinv17** which was created in a previous section. Select this database and you should see under Tables **reinv17_yellow**. 
+18. 데이터베이스에서  이전 섹션에서 작성된 데이터베이스 **nycitytaxianalysis-reinv17** 를 봐야 합니다. 이 데이터베이스를 선택하고 테이블 아래에 있는  **reinv17_yellow** 를 확인하십시오.
 
-19. In the query editor on the right, type
+19. 오른쪽의 쿼리 편집기에서 다음을 입력하고
 
     ```
     select count(*) from reinv17_yellow;
     ```
 
-    and take note the Run Time and Data scanned numbers here. 
+    그리고 실행시간과 데이터 스캔 값을 기록하십시오.
 
     ![glue20](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_uncomp_scanresult.PNG)
 
-20. What we see is the Run time and Data scanned numbers for Amazon Athena to query and scan the uncompressed data from the previous section.
+20. 우리가 보는 것은 Amazon Athena가 이전 섹션에서 압축되지 않은 데이터를 쿼리하고 스캔하기위해 실행 시간과 데이터 스캔 값 입니다.
 
 
-> Note: Athena charges you by the amount of data scanned per query. You can save on costs and get better performance if you partition the data, compress data, or convert it to columnar formats such as Apache Parquet.
+> Note: Athena는 쿼리 당 스캔된 데이터 양으로 요금을 청구합니다. 데이터를 분할하거나 데이터를 압축하거나 Apache Parquet과 같은 컬럼 형식으로 변환하면 비용을 절약하고 성능을 향상시킬 수 있습니다.
 
-## Deleting the Glue database, crawlers and ETL Jobs created for this Lab
+## 이 실습에서 만든 Glue 데이터베이스, 크롤러 및 ETL Jobs 삭제
 
-Now that you have successfully discovered and analyzed the dataset using Amazon Glue and Amazon Athena, you need to delete the resources created as part of this lab. 
+이제 Amazon Glue와 Amazon Athena를 사용하여 데이터 세트를 성공적으로 검색하고 분석했으므로, 이 실습에서 생성된 리소스를 삭제해야 합니다.
 
-1. Open the [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#). Ensure you are in the Oregon region (as part of this lab).
-2. Click on **Databases** under Data Catalog column on the left. 
-3. Check the box for the Database that were created as part of this lab. Click on **Action** and select **Delete Database**. And click on **Delete**. This will also delete the tables under this database. 
-4. Click on **Crawlers** under Data Catalog column on the left. 
-5. Check the box for the crawler that were created as part of this lab. Click on **Action** and select **Delete Crawler**. And click on **Delete**. 
-6. Click on **Jobs** under ETL column on the left. 
-7. Check the box for the jobs that were created as part of this lab. Click on **Action** and select **Delete**. And click on **Delete**. 
-8. Open the [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home).
-9. Click on the S3 bucket that was created as part of this lab. You need to click on its corresponding **Bucket icon** to select the bucket instead of opening the bucket. Click on **Delete bucket** button on the top, to delete the S3 bucket. In the pop-up window, Type the name of the bucket (that was created as part of this lab), and click **Confirm**. 
+1. Open the [AWS Management console for Amazon Glue](https://us-west-2.console.aws.amazon.com/glue/home?region=us-west-2#) 를 여십시오. 오레곤 지역인지 확인하십시오.
+2. 왼쪽의 Data Catalog 열 아래에 **Databases** 를 클릭하십시오.
+3. 이번 실습에서 생성된 데이터베이스를 선택하십시오. **Action** 을 클릭하고 **Delete Database** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오. 그러면 이 데이터베이스 아래의 테이블도 삭제됩니다.
+4. 왼쪽의 Data Catalog 열 아래에 **Crawlers** 를 클릭하십시오.
+5. 이번 실습에서 생성된 크롤러를 선택하십시오. **Action** 을 클릭하고 **Delete Crawler** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오.
+6. 왼쪽의 ETL 열 아래에 **Jobs** 를 클릭하십시오.
+7. 이번 실습에서 생성된 jobs를 선택하십시오. Click on **Action** and select **Delete**. **Action** 을 클릭하고 **Delete** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오.
+8. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home) 를 여십시오.
+9. 이번 실습에서 생성된 S3 버킷를 클릭하십시오. You need to click on its corresponding **Bucket icon** to select the bucket instead of opening the bucket. 버킷을 열지 않고 선택하려면 **버킷 아이콘** 을 클릭해야합니다. S3 버킷을 삭제하려면 상단의 **버킷 삭제** 버튼을 클릭하십시오. 팝업 창에서 이번 실습에 생성된 버킷 이름을 입력하고 **확인**을 클릭하십시오.
 
-## Summary
+## 요약
 
-In the lab, you went from data discovery to analyzing a canonical dataset, without starting and setting up a single server. You started by crawling a dataset you didn’t know anything about and the crawler told you the structure, columns, and counts of records.
+이번실습에서 단일서버를 시작하고 설정하지 않고 데이터 검색에서 표준데이터 세트 분석으로 이동하였습니다. 먼저 알지 못했던 데이터 세트를 크롤링하여 크롤러가 구조, 열 및 레코드 수를 알려 줬습니다.
 
-From there, you saw the datasets were in different formats, but represented the same thing: NY City Taxi rides. You then converted them into a canonical (or normalized) form that is easily queried through Athena and possible in QuickSight, in addition to a wide number of different tools not covered in this post.
+그리고 데이터세트가 다른 포맷이지만 같은 것임을 보았습니다. 그런 다음  Athena 및 QuickSight에서 쉽게 쿼리 할 수있는 표준 (정규화 된) 양식으로 변환했으며, 이 포스트에는 포함되지 않은 다양한도구도 많이 있었습니다.
 
 ---
 ## License
