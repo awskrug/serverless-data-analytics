@@ -1,6 +1,6 @@
 # Lab 4: Analysis of data in Amazon S3 using Amazon Redshift Spectrum
 
-* [Deploying Amazon Redshift Cluster](#deploying-amazon-redshift-cluster)
+* [Amazon Redshift 클러스터 배포하기](#Amazon-Redshift-클러스터-배포하기)
 * [AWS Glue Crawlers 실행하기 - CSV 및 Parquet 크롤러](#AWS-Glue-Crawlers-실행하기---CSV-및-Parquet-크롤러)
 * [AWS Glue 데이터 카탈로그 데이터베이스를 구성하는 Redshift Spectrum Scehma 및 참조 외부 테이블 생성하기](#AWS-Glue-데이터-카탈로그-데이터베이스를-구성하는-Redshift-Spectrum-Scehma-및-참조-외부-테이블-생성하기)
 * [Querying data from Amazon S3 using Amazon Redshift Spectrum](#querying-data-from-amazon-s3-using-amazon-redshift-spectrum)
@@ -10,69 +10,68 @@
 ## Architectural Diagram
 ![architecture-overview-lab4.png](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-17+at+1.11.45+AM.png)
 
-## Deploying Amazon Redshift Cluster 
+## Amazon Redshift 클러스터 배포하기
 
-In this section you will use the CloudFromation template to create Amazon RedShift cluster resources. The template will also install [pgweb](https://github.com/sosedoff/pgweb), SQL Client for PostgreSQL, in an  Amazon EC2 instance to connect and run your queries on the launched Amazon Redshift cluster. Alternatively, you can connect to the Amazon Redshift cluster using standard SQL Clients such as SQL Workbench/J. For more information refer http://docs.aws.amazon.com/redshift/latest/mgmt/connecting-using-workbench.html.
+이 섹션에서는 Amazon Redshift 클러스터 리소스를 생성하기 위해 CloudFromation 템플릿을 사용할 것입니다. 이 템플릿은 Amazon EC2 인스턴스에 PostgreSQL 용 [pgweb](https://github.com/sosedoff/pgweb) , SQL Client를 설치하여 실행된 Amazon Redshift 클러스터에 쿼리를 연결하고 실행합니다. 다른 방법으로는 SQL Workbench/J 와 같은 표준 SQL 클라이언트를 사용하여 Amazon Redshift 클러스터에 연결할 수 있습니다. 자세한 내용은  http://docs.aws.amazon.com/redshift/latest/mgmt/connecting-using-workbench.html 을 참조하십시오.
 
-1. Login in to your AWS console and open the [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2]) 
-2. Make a note of the AWS region name, for example, for this lab you will need to choose the **US West (Oregon)** region.
-3. Click **Create Stack**
-4. Select **Specify an Amazon S3 template URL**
-5. Copy paste the following S3 template URL in the text box
+1. AWS 콘솔에 로그인하여  [Amazon CloudFormation Dashboard](https://us-west-2.console.aws.amazon.com/cloudformation/home?region=us-west-2]) 를 여십시오.
+2. AWS 지역 이름을 기록해 두십시오. 예를 들어 이 실습을 위해서 **US West (Oregon)** 지역을 선택해야 합니다.
+3. **Create Stack** 을 클릭하십시오.
+4. **Specify an Amazon S3 template URL** 을 선택하십시오.
+5. 다음 S3 템플릿 URL을 텍스트 상자에 붙여넣으십시오.
 ```
 https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverless-data-analytics/labcontent/redshiftspectrumglue-lab4.template
 ```
-6. Click **Next**
+6. **Next** 을 클릭하십시오.
 
 >**Note:** 
->Click on the link [redshiftspectrumglue-lab4.template](../Lab4/redshiftspectrumglue-lab4.template) to view the Amazon CloudFormation template file
+>[redshiftspectrumglue-lab4.template](../Lab4/redshiftspectrumglue-lab4.template) 링크를 클릭하여 Amazon CloudFormation 템플릿 파일을 확인하십시오.
 
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.08+PM.png)
 
-8. Type a name *(e.g. RedshiftSpectrumLab)* for the **Stack Name**
+8. **Stack Name** 에 대한 이름 *(예. RedshiftSpectrumLab)* 을 입력하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.39+PM.png)
 
-9. Enter the following **Parameters** for **Redshift Cluster Configuration**
-   
-    1. Choose *multi-node* for **ClusterType**
-    2. Type *2* for the **NumberOfNodes**
-    3. For **NodeType** select *dc1.xlarge*
+9. **Redshift Cluster Configuration** 에 대해 다음 **parameters** 를 입력하십시오.
+  1. **ClusterType** : *multi-node* 를 선택하십시오.
+    2. **NumberOfNodes** : *2* 를 입력하십시오.
+    3. **NodeType**  : *dc1.xlarge* 를 선택하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.57+PM.png)
 
-10.  Enter the following **Parameters** for **Redshift Database Configuration**.
-    i. Type a name (e.g. dbadmin) for **MasterUserName**.
-    ii. Type a password for **MasterUserPassword**.
-    iii. Type the a name (e.g. taxidb) for **DatabaseName**.
-    iv. Type the IP address of your local machine for **ClientIP**.
+10.  **Redshift Database Configuration** 에 대해 다음 **parameters** 를 입력하십시오. 
+    i. **MasterUserName** : 이름 (예. dbadmin) 을 입력하십시오.
+    ii. **MasterUserPassword** : 비밀번호를 입력하십시오.
+    iii. **DatabaseName** : 이름 (예. taxidb) 을 입력하십시오.
+    iv. **ClientIP** : 로컬 시스템의 IP 주소를 입력하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.39.23+PM.png)
 
-11. Enter the following **Parameters** for **Glue Crawler Configuration**
-    1. Type the name(e.g. taxi-spectrum-db) for **GlueCatalogDBName**.    
-    2. Type the name(e.g. csvCrawler) for **CSVCrawler**.
-    3. Type the name(e.g. parquetCrawler) for **ParquetCrawler**.
+11. **Glue Crawler Configuration** 에 대해 다음 **parameters** 를 입력하십시오.
+    1. **GlueCatalogDBName** : 이름 (예. taxi-spectrum-db) 을 입력하십시오.    
+    2. **CSVCrawler** : 이름 (예. csvCrawler) 을 입력하십시오.
+    3. **ParquetCrawler** : 이름 (예. parquetCrawler) 을 입력하십시오.
     
-12. Click **Next**
+12.  **Next** 를 클릭하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.40.04+PM.png)
 
-13. [Optional] In the **Tags** sub-sections in **Options** type a **Key** name *(e.g. Name)* and **Value** for key.
-14. Click **Next**
+13. [선택사항] **Options** 의 **Tags** 하위 섹션에 **Key** 이름 *(예. Name)* 과  **Value** 를 입력하십시오 .
+14.  **Next** 를 클릭하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.40.31+PM.png)
 
-15. Check **I acknowledge that AWS CloudFormation might create IAM resources.**
-16. Click **Create**
+15. **I acknowledge that AWS CloudFormation might create IAM resources** 를 확인하십시오.
+16. **Create** 을 클릭하십시오.
 
-> **Note:** This is may take approximately 15 minutes 
+> **Note:** 대략 15분 정도 소요됩니다.
 
-17. Ensure that status of the Amazon CloudFromation stack that you just create is **CREATE_COMPLETE**
-18. Select your Amazon CloudFormation stack *(RedshiftSpectrumLab)*
-19. Click on the **Outputs** tab
-20. Review the list of **Key** and thier **Value** which will look like the following. 
+17. 방금 생성한 Amazon CloudFromation 스택의 상태가 **CREATE_COMPLETE** 인지 확인하십시오.
+18. Amazon CloudFormation 스택을 선택하십시오 *(RedshiftSpectrumLab)*
+19. **Outputs** 탭을 클릭하십시오.
+20. 다음과 같은 **Key** 및  **Value**  목록을 검토하십시오.
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.30.42+PM.png)
 
