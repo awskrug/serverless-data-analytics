@@ -280,9 +280,9 @@ AWS Glue가 지원되는 지역에서 Athena는 AWS Glue Data Catalog를 중앙 
 4. 왼쪽의 Data Catalog 열 아래에 **Crawlers** 를 클릭하십시오.
 5. 이번 실습에서 생성된 크롤러를 선택하십시오. **Action** 을 클릭하고 **Delete Crawler** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오.
 6. 왼쪽의 ETL 열 아래에 **Jobs** 를 클릭하십시오.
-7. 이번 실습에서 생성된 jobs를 선택하십시오. Click on **Action** and select **Delete**. **Action** 을 클릭하고 **Delete** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오.
+7. 이번 실습에서 생성된 jobs를 선택하십시오. **Action** 을 클릭하고 **Delete** 를 선택하십시오. 그리고 **Delete** 를 클릭하십시오.
 8. [AWS Management console for Amazon S3](https://s3.console.aws.amazon.com/s3/home) 를 여십시오.
-9. 이번 실습에서 생성된 S3 버킷를 클릭하십시오. You need to click on its corresponding **Bucket icon** to select the bucket instead of opening the bucket. 버킷을 열지 않고 선택하려면 **버킷 아이콘** 을 클릭해야합니다. S3 버킷을 삭제하려면 상단의 **버킷 삭제** 버튼을 클릭하십시오. 팝업 창에서 이번 실습에 생성된 버킷 이름을 입력하고 **확인**을 클릭하십시오.
+9. 이번 실습에서 생성된 S3 버킷를 클릭하십시오. 버킷을 열지 않고 선택하려면 **버킷 아이콘** 을 클릭해야합니다. S3 버킷을 삭제하려면 상단의 **버킷 삭제** 버튼을 클릭하십시오. 팝업 창에서 이번 실습에 생성된 버킷 이름을 입력하고 **확인**을 클릭하십시오.
 
 ## 요약
 
