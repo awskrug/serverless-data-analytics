@@ -227,11 +227,11 @@ AWS Glue가 지원되는 지역에서 Athena는 AWS Glue Data Catalog를 중앙 
 
 10. IAM 규칙을 선택하려면 Choose an existing IAM role를 선택하고 드롭다운에서 이전 섹션에서 만든 규칙을 선택하고 **Next**를 클릭하십시오.
 
-11. Create a schedule for this crawler에서 pick frequency as **Run on demand** and click on **Next**.빈도를 **Run on demand** 으로 선택하고 **Next** 를 클릭하십시오.
+11. Create a schedule for this crawler에서 빈도를 **Run on demand** 으로 선택하고 **Next** 를 클릭하십시오.
 
-12. Configure the crawler's output에서 **Add Database** 를 클릭하고 데이터베이스의 이름을 **nycitytaxianalysis-reinv17-parquet** 으로 입력하고 **create** 를 클릭하십시오. Prefix added to tables에서 접두사에 **parq_** 를 입력하고 **Next** 를 클릭하십시오. 
+12. Configure the crawler's output에서 **Add Database** 를 클릭하고 데이터베이스의 이름을 **nycitytaxianalysis-reinv17-parquet** 으로 입력하고 **create** 를 클릭하십시오. Prefix added to tables 에서 접두사에 **parq_** 를 입력하고 **Next** 를 클릭하십시오. 
 
-13. Review the Crawler Info and click **Finish**. Click on **Run it Now?**. 크롤러의 정보를 확인하고 **Finish** 를 클릭하십시오. **Run it Now?** 를 클릭하십시오.
+13. 크롤러의 정보를 확인하고 **Finish** 를 클릭하십시오. **Run it Now?** 를 클릭하십시오.
 
 14. 왼쪽에 있는 **Table**을 클릭하고 데이터베이스 nycitytaxianalysis-reinv17-parquet에 대해 parq_target 테이블을 보십시오.
 
@@ -251,7 +251,7 @@ AWS Glue가 지원되는 지역에서 Athena는 AWS Glue Data Catalog를 중앙 
 
     ![glue19](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab3/glue_comp_scanresult.PNG)
 
-     우리가 보는것은 Amazon Athena가 **parquet 데이터를 쿼리하고 스캔 할 수 있는 ** 실행 시간과 데이터 스캔 값 입니다.
+     우리가 보는것은 Amazon Athena가 **parquet 데이터를 쿼리하고 스캔 할 수 있는** 실행 시간과 데이터 스캔 값 입니다.
 
 18. 데이터베이스에서  이전 섹션에서 작성된 데이터베이스 **nycitytaxianalysis-reinv17** 를 봐야 합니다. 이 데이터베이스를 선택하고 테이블 아래에 있는  **reinv17_yellow** 를 확인하십시오.
 
