@@ -47,6 +47,8 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
     ii. **MasterUserPassword** : 비밀번호를 입력하십시오.
     iii. **DatabaseName** : 이름 (예. taxidb) 을 입력하십시오.
     iv. **ClientIP** : 로컬 시스템의 IP 주소를 입력하십시오.
+    
+    
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.39.23+PM.png)
 
