@@ -41,7 +41,7 @@ https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/us-west-2.serverles
 
 ![IMAGE](https://s3.amazonaws.com/us-east-1.data-analytics/labcontent/reinvent2017content-abd313/lab4/Screen+Shot+2017-11-16+at+7.38.57+PM.png)
 
-10.  **Redshift Database Configuration** 에 대해 다음 **parameters** 를 입력하십시오. 
+10. **Redshift Database Configuration** 에 대해 다음 **parameters** 를 입력하십시오. 
     i. **MasterUserName** : 이름 (예. dbadmin) 을 입력하십시오.
     ii. **MasterUserPassword** : 비밀번호를 입력하십시오.
     iii. **DatabaseName** : 이름 (예. taxidb) 을 입력하십시오.
