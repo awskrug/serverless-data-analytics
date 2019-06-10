@@ -1,4 +1,4 @@
-> 한국어 번역에는 안시원(ssibongee@yonsei.ac.kr),장용주( yongju1264@gmail.com),권민(min94913@gmail.com)님이 수고해주셨습니다.
+> 한국어 번역에는 안시원(ssibongee@yonsei.ac.kr), 장용주( yongju1264@gmail.com), 권민(min94913@gmail.com)님이 수고해주셨습니다.
 
 # Building an End-to-End Serverless Data Analytics Solution on AWS
 
